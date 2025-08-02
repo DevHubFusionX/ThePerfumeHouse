@@ -10,6 +10,8 @@ const AdminPanel = ({ onLogout }) => {
   const [formData, setFormData] = useState({ name: '', price: '', category: '', image: null });
   const [comboFormData, setComboFormData] = useState({ name: '', description: '', products: [], originalPrice: '', comboPrice: '', savings: '', image: null, popular: false });
   const [loading, setLoading] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
 
   useEffect(() => {
     fetchProducts();
@@ -175,6 +177,80 @@ const AdminPanel = ({ onLogout }) => {
             <FaBoxes className="inline mr-2" />Combos
           </button>
         </div>
+
+        {showPasswordForm && (
+          <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <FaHome className="text-white text-sm" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Change Password</h2>
+            </div>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              if (passwordData.newPassword !== passwordData.confirmPassword) {
+                alert('New passwords do not match');
+                return;
+              }
+              try {
+                const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/admin/change-password', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+                  body: JSON.stringify({ currentPassword: passwordData.currentPassword, newPassword: passwordData.newPassword })
+                });
+                if (response.ok) {
+                  alert('Password changed successfully');
+                  setShowPasswordForm(false);
+                  setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+                } else {
+                  const data = await response.json();
+                  alert(data.error);
+                }
+              } catch (error) {
+                alert('Failed to change password');
+              }
+            }} className="grid gap-6 max-w-md">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Current Password</label>
+                <input
+                  type="password"
+                  value={passwordData.currentPassword}
+                  onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">New Password</label>
+                <input
+                  type="password"
+                  value={passwordData.newPassword}
+                  onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Confirm New Password</label>
+                <input
+                  type="password"
+                  value={passwordData.confirmPassword}
+                  onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div className="flex space-x-4 pt-4">
+                <button type="submit" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                  <FaSave /> <span>Change Password</span>
+                </button>
+                <button type="button" onClick={() => {setShowPasswordForm(false); setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });}} className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                  <FaTimes /> <span>Cancel</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {showAddForm && activeTab === 'combos' && (
           <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">

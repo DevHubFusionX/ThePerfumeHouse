@@ -108,11 +108,7 @@ const AdminLogin = () => {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Demo credentials:</p>
-          <p>Email: admin@moderateustaz.com</p>
-          <p>Password: admin123</p>
-        </div>
+      
       </div>
     </div>
   );
