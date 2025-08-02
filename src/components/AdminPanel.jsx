@@ -12,6 +12,10 @@ const AdminPanel = ({ onLogout }) => {
   const [loading, setLoading] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [emailData, setEmailData] = useState({ currentPassword: '', newEmail: '' });
+  const [emailLoading, setEmailLoading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -149,6 +153,13 @@ const AdminPanel = ({ onLogout }) => {
                 <span className="hidden sm:inline">Password</span>
               </button>
               <button 
+                onClick={() => setShowEmailForm(true)}
+                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+              >
+                <FaEdit className="text-sm" /> 
+                <span className="hidden sm:inline">Email</span>
+              </button>
+              <button 
                 onClick={handleLogout}
                 className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               >
@@ -185,6 +196,70 @@ const AdminPanel = ({ onLogout }) => {
           </button>
         </div>
 
+        {showEmailForm && (
+          <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <FaEdit className="text-white text-sm" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Change Email</h2>
+            </div>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setEmailLoading(true);
+              try {
+                const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/admin/change-email', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+                  body: JSON.stringify({ currentPassword: emailData.currentPassword, newEmail: emailData.newEmail })
+                });
+                if (response.ok) {
+                  alert('Email changed successfully');
+                  setShowEmailForm(false);
+                  setEmailData({ currentPassword: '', newEmail: '' });
+                } else {
+                  const data = await response.json();
+                  alert(data.error);
+                }
+              } catch (error) {
+                alert('Failed to change email');
+              } finally {
+                setEmailLoading(false);
+              }
+            }} className="grid gap-6 max-w-md">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Current Password</label>
+                <input
+                  type="password"
+                  value={emailData.currentPassword}
+                  onChange={(e) => setEmailData({...emailData, currentPassword: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">New Email</label>
+                <input
+                  type="email"
+                  value={emailData.newEmail}
+                  onChange={(e) => setEmailData({...emailData, newEmail: e.target.value})}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <div className="flex space-x-4 pt-4">
+                <button type="submit" disabled={emailLoading} className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none">
+                  <FaSave className={emailLoading ? 'animate-spin' : ''} /> 
+                  <span>{emailLoading ? 'Changing...' : 'Change Email'}</span>
+                </button>
+                <button type="button" onClick={() => {setShowEmailForm(false); setEmailData({ currentPassword: '', newEmail: '' });}} className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                  <FaTimes /> <span>Cancel</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
         {showPasswordForm && (
           <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
             <div className="flex items-center space-x-3 mb-6">
@@ -199,6 +274,7 @@ const AdminPanel = ({ onLogout }) => {
                 alert('New passwords do not match');
                 return;
               }
+              setPasswordLoading(true);
               try {
                 const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/admin/change-password', {
                   method: 'POST',
@@ -215,6 +291,8 @@ const AdminPanel = ({ onLogout }) => {
                 }
               } catch (error) {
                 alert('Failed to change password');
+              } finally {
+                setPasswordLoading(false);
               }
             }} className="grid gap-6 max-w-md">
               <div className="space-y-2">
@@ -248,8 +326,9 @@ const AdminPanel = ({ onLogout }) => {
                 />
               </div>
               <div className="flex space-x-4 pt-4">
-                <button type="submit" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                  <FaSave /> <span>Change Password</span>
+                <button type="submit" disabled={passwordLoading} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none">
+                  <FaSave className={passwordLoading ? 'animate-spin' : ''} /> 
+                  <span>{passwordLoading ? 'Changing...' : 'Change Password'}</span>
                 </button>
                 <button type="button" onClick={() => {setShowPasswordForm(false); setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });}} className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
                   <FaTimes /> <span>Cancel</span>
