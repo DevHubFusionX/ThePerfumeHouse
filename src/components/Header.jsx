@@ -20,18 +20,18 @@ const Header = () => {
             <a href="#contact" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Contact</a>
           </nav>
           <div className="flex space-x-3">
-            <a href="https://wa.me/your-number" className="text-green-600 hover:text-green-700 transition-colors">
+            <a href="https://wa.me/2347069257877" className="text-green-600 hover:text-green-700 transition-colors">
               <FaWhatsapp size={20} />
             </a>
-            <a href="https://instagram.com/moderate_ustaz" className="text-pink-500 hover:text-pink-600 transition-colors">
-              <FaInstagram size={20} />
+            <a href="https://x.com/moderate_ustaz" className="text-blue-500 hover:text-blue-600 transition-colors">
+              <FaTwitter size={20} />
             </a>
           </div>
         </div>
       </header>
       
       {/* Floating WhatsApp Button */}
-      <a href="https://wa.me/your-number" className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all z-50 animate-pulse">
+      <a href="https://wa.me/2347069257877" className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all z-50 animate-pulse">
         <FaWhatsapp size={24} />
       </a>
     </>

@@ -1,22 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp, FaStar } from 'react-icons/fa';
+import ProductSkeleton from './ProductSkeleton';
+import { cache } from '../utils/cache';
 
 const Combos = () => {
   const [products, setProducts] = useState([]);
   const [combos, setCombos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
+    // Check cache first
+    const cachedCombos = cache.get('combos');
+    if (cachedCombos) {
+      setCombos(cachedCombos);
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/products');
+      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/combos');
       const data = await response.json();
-      setProducts(data);
-      generateCombos(data);
+      setCombos(data);
+      cache.set('combos', data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching combos:', error);
+      // Fallback to auto-generated combos
+      const productsResponse = await fetch('https://moderate-ustaz-backend.onrender.com/api/products');
+      const productsData = await productsResponse.json();
+      setProducts(productsData);
+      generateCombos(productsData);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,9 +118,16 @@ const Combos = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Save more with our carefully curated combo packages</p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {combos.map(combo => (
-            <div key={combo.id} className="relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border hover:-translate-y-1">
+        {loading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[...Array(3)].map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {combos.map(combo => (
+            <div key={combo._id || combo.id} className="relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border hover:-translate-y-1">
               {combo.popular && (
                 <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1 z-10">
                   <FaStar size={12} />
@@ -119,7 +144,7 @@ const Combos = () => {
               
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-2">{combo.name}</h3>
-                <p className="text-gray-600 mb-4">{combo.items}</p>
+                <p className="text-gray-600 mb-4">{combo.description || combo.items}</p>
                 
                 <div className="mb-4">
                   <div className="flex items-center space-x-2 mb-1">
@@ -129,14 +154,15 @@ const Combos = () => {
                   <p className="text-sm text-green-600 font-semibold">You save {combo.savings}!</p>
                 </div>
                 
-                <a href={`https://wa.me/your-number?text=Hi, I'm interested in the ${combo.name} combo for ${combo.comboPrice}`} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all">
+                <a href={`https://wa.me/2347069257877?text=Hi, I'm interested in the ${combo.name} combo for ${combo.comboPrice}`} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all">
                   <FaWhatsapp size={18} />
                   <span>Order Combo</span>
                 </a>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
+import ProductSkeleton from './ProductSkeleton';
+import { cache } from '../utils/cache';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -10,10 +12,19 @@ const Shop = () => {
   }, []);
 
   const fetchProducts = async () => {
+    // Check cache first
+    const cachedProducts = cache.get('products');
+    if (cachedProducts) {
+      setProducts(cachedProducts);
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/products');
       const data = await response.json();
       setProducts(data);
+      cache.set('products', data);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -31,33 +42,47 @@ const Shop = () => {
         </div>
         
         {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-            <p className="mt-4 text-gray-600">Loading products...</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {products.map(product => (
-              <div key={product._id} className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1">
-                <div className="relative overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
-                  <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    {product.category}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">{product.name}</h3>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                  </div>
-                  <a href={`https://wa.me/your-number?text=Hi, I'm interested in ${product.name} for ${product.price}`} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all">
-                    <FaWhatsapp size={18} />
-                    <span>Order via WhatsApp</span>
-                  </a>
-                </div>
-              </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {[...Array(4)].map((_, index) => (
+              <ProductSkeleton key={index} />
             ))}
           </div>
+        ) : (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+              {products.slice(0, 4).map(product => (
+                <div key={product._id} className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1">
+                  <div className="relative overflow-hidden">
+                    <img src={product.image} alt={product.name} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      {product.category}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3">{product.name}</h3>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-2xl font-bold text-green-600">{product.price}</span>
+                    </div>
+                    <a href={`https://wa.me/2347069257877?text=Hi, I'm interested in ${product.name} for ${product.price}`} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all">
+                      <FaWhatsapp size={18} />
+                      <span>Order via WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {products.length > 4 && (
+              <div className="text-center mt-12">
+                <a href="/products" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                  <span>View All Products</span>
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+              </div>
+            )}
+          </>
         )}
         
         {!loading && products.length === 0 && (

@@ -55,7 +55,7 @@ const HowToOrder = () => {
           <div className="bg-white p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Need Help?</h3>
             <p className="text-gray-600 mb-6">Our customer service is available 24/7 to assist you</p>
-            <a href="https://wa.me/your-number" className="inline-flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold transition-all">
+            <a href="https://wa.me/2347069257877" className="inline-flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold transition-all">
               <FaWhatsapp size={20} />
               <span>Chat with Us</span>
             </a>

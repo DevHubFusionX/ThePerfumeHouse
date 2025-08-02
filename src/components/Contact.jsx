@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaWhatsapp, FaInstagram, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaWhatsapp, FaTwitter, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
 const Contact = () => {
   return (
@@ -20,14 +20,14 @@ const Contact = () => {
                   <FaWhatsapp className="text-green-400 text-xl" />
                   <div>
                     <p className="font-semibold">WhatsApp</p>
-                    <p className="text-gray-300">+234 XXX XXX XXXX</p>
+                    <p className="text-gray-300">+234 706 925 7877</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   <FaPhone className="text-blue-400 text-xl" />
                   <div>
                     <p className="font-semibold">Phone</p>
-                    <p className="text-gray-300">+234 XXX XXX XXXX</p>
+                    <p className="text-gray-300">+234 706 925 7877</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -48,13 +48,13 @@ const Contact = () => {
             </div>
             
             <div className="space-y-4">
-              <a href="https://wa.me/your-number" className="flex items-center justify-center bg-green-600 hover:bg-green-700 py-4 px-8 rounded-xl text-lg font-semibold transition-all">
+              <a href="https://wa.me/2347069257877" className="flex items-center justify-center bg-green-600 hover:bg-green-700 py-4 px-8 rounded-xl text-lg font-semibold transition-all">
                 <FaWhatsapp className="mr-3" size={24} />
                 Order on WhatsApp
               </a>
-              <a href="https://instagram.com/moderate_ustaz" className="flex items-center justify-center bg-pink-500 hover:bg-pink-600 py-4 px-8 rounded-xl text-lg font-semibold transition-all">
-                <FaInstagram className="mr-3" size={24} />
-                Follow on Instagram
+              <a href="https://x.com/moderate_ustaz" className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 py-4 px-8 rounded-xl text-lg font-semibold transition-all">
+                <FaTwitter className="mr-3" size={24} />
+                Follow on Twitter
               </a>
             </div>
           </div>

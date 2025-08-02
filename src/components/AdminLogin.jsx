@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const AdminLogin = ({ onLogin }) => {
+const AdminLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Redirect if already logged in
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      navigate('/admin-dashboard');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +33,7 @@ const AdminLogin = ({ onLogin }) => {
       
       if (response.ok) {
         localStorage.setItem('adminToken', data.token);
-        onLogin(data.token);
+        navigate('/admin-dashboard');
       } else {
         setError(data.error || 'Login failed');
       }
