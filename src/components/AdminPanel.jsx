@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaSignOutAlt, FaHome, FaBoxes } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaSignOutAlt, FaHome, FaBoxes, FaBars } from 'react-icons/fa';
 
 const AdminPanel = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('products');
@@ -16,6 +16,7 @@ const AdminPanel = ({ onLogout }) => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [emailData, setEmailData] = useState({ currentPassword: '', newEmail: '' });
   const [emailLoading, setEmailLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -135,41 +136,95 @@ const AdminPanel = ({ onLogout }) => {
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="bg-green-50 px-2 sm:px-4 py-1 sm:py-2 rounded-lg border border-green-200">
-                <span className="text-xs sm:text-sm text-green-700 font-medium">{products.length}</span>
+                <span className="text-xs sm:text-sm text-green-700 font-medium">{activeTab === 'products' ? products.length : combos.length}</span>
+              </div>
+              <div className="hidden md:flex items-center space-x-3">
+                <button 
+                  onClick={() => setShowAddForm(true)}
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <FaPlus className="animate-pulse text-sm" /> 
+                  <span>Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
+                </button>
+                <button 
+                  onClick={() => setShowPasswordForm(true)}
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <FaHome className="text-sm" /> 
+                  <span>Password</span>
+                </button>
+                <button 
+                  onClick={() => setShowEmailForm(true)}
+                  className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <FaEdit className="text-sm" /> 
+                  <span>Email</span>
+                </button>
+                <button 
+                  onClick={handleLogout}
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <FaSignOutAlt className="text-sm" /> 
+                  <span>Logout</span>
+                </button>
               </div>
               <button 
-                onClick={() => setShowAddForm(true)}
-                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                onClick={() => setSidebarOpen(true)}
+                className="md:hidden bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-xl shadow-lg transition-all"
               >
-                <FaPlus className="animate-pulse text-sm" /> 
-                <span className="hidden sm:inline">Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
-                <span className="sm:hidden text-xs">Add</span>
-              </button>
-              <button 
-                onClick={() => setShowPasswordForm(true)}
-                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <FaHome className="text-sm" /> 
-                <span className="hidden sm:inline">Password</span>
-              </button>
-              <button 
-                onClick={() => setShowEmailForm(true)}
-                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <FaEdit className="text-sm" /> 
-                <span className="hidden sm:inline">Email</span>
-              </button>
-              <button 
-                onClick={handleLogout}
-                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <FaSignOutAlt className="text-sm" /> 
-                <span className="hidden sm:inline">Logout</span>
+                <FaBars className="text-sm" />
               </button>
             </div>
           </div>
         </div>
       </header>
+
+      {/* Mobile Sidebar */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)}></div>
+          <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl transform transition-transform">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-xl font-bold text-gray-800">Admin Menu</h3>
+                <button onClick={() => setSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                  <FaTimes className="text-gray-600" />
+                </button>
+              </div>
+              <div className="space-y-4">
+                <button 
+                  onClick={() => {setShowAddForm(true); setSidebarOpen(false);}}
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
+                >
+                  <FaPlus /> 
+                  <span>Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
+                </button>
+                <button 
+                  onClick={() => {setShowPasswordForm(true); setSidebarOpen(false);}}
+                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
+                >
+                  <FaHome /> 
+                  <span>Change Password</span>
+                </button>
+                <button 
+                  onClick={() => {setShowEmailForm(true); setSidebarOpen(false);}}
+                  className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
+                >
+                  <FaEdit /> 
+                  <span>Change Email</span>
+                </button>
+                <button 
+                  onClick={handleLogout}
+                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
+                >
+                  <FaSignOutAlt /> 
+                  <span>Logout</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto p-6 animate-slide-up">
         {/* Tabs */}
