@@ -138,8 +138,15 @@ const AdminPanel = ({ onLogout }) => {
                 className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               >
                 <FaPlus className="animate-pulse text-sm" /> 
-                <span className="hidden sm:inline">Add Product</span>
+                <span className="hidden sm:inline">Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
                 <span className="sm:hidden text-xs">Add</span>
+              </button>
+              <button 
+                onClick={() => setShowPasswordForm(true)}
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-xl flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+              >
+                <FaHome className="text-sm" /> 
+                <span className="hidden sm:inline">Password</span>
               </button>
               <button 
                 onClick={handleLogout}
