@@ -1,30 +1,30 @@
 import React from 'react';
-import { FaWhatsapp, FaTwitter, FaHeart } from 'react-icons/fa';
+import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-stone-900 text-white py-12">
+    <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">MU</span>
               </div>
-              <h3 className="text-2xl font-bold text-amber-400">Moderate Ustaz</h3>
+              <h3 className="text-2xl font-bold text-green-400">Moderate Ustaz Wears</h3>
             </div>
-            <p className="text-stone-300 leading-relaxed">
-              A Nigerian, student of knowledge. Sharing wisdom, reflections, and quality clothing materials with the community.
+            <p className="text-gray-300 leading-relaxed">
+              Premium quality traditional and urban wear at affordable prices. Your trusted clothing partner.
             </p>
           </div>
           
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <div className="space-y-2">
-              <a href="#home" className="block text-stone-300 hover:text-amber-400 transition-colors">Home</a>
-              <a href="#about" className="block text-stone-300 hover:text-amber-400 transition-colors">About</a>
-              <a href="#shop" className="block text-stone-300 hover:text-amber-400 transition-colors">Shop</a>
-              <a href="#thoughts" className="block text-stone-300 hover:text-amber-400 transition-colors">Thoughts</a>
+              <a href="#home" className="block text-gray-300 hover:text-green-400 transition-colors">Home</a>
+              <a href="#shop" className="block text-gray-300 hover:text-green-400 transition-colors">Shop</a>
+              <a href="#combos" className="block text-gray-300 hover:text-green-400 transition-colors">Combos</a>
+              <a href="#order" className="block text-gray-300 hover:text-green-400 transition-colors">How to Order</a>
             </div>
           </div>
           
@@ -34,22 +34,19 @@ const Footer = () => {
               <a href="https://wa.me/your-number" className="bg-green-600 hover:bg-green-700 p-3 rounded-full transition-colors">
                 <FaWhatsapp size={20} />
               </a>
-              <a href="https://twitter.com/moderate_ustaz" className="bg-blue-500 hover:bg-blue-600 p-3 rounded-full transition-colors">
-                <FaTwitter size={20} />
+              <a href="https://instagram.com/moderate_ustaz" className="bg-pink-500 hover:bg-pink-600 p-3 rounded-full transition-colors">
+                <FaInstagram size={20} />
               </a>
             </div>
-            <p className="text-stone-300 text-sm">
+            <p className="text-gray-300 text-sm">
               WhatsApp: +234 XXX XXX XXXX
             </p>
           </div>
         </div>
         
-        <div className="border-t border-stone-700 pt-8 text-center">
-          <p className="text-stone-400 flex items-center justify-center">
-            Made with <FaHeart className="text-red-500 mx-2" /> for the community
-          </p>
-          <p className="text-stone-500 text-sm mt-2">
-            © 2025 Moderate Ustaz. All rights reserved.
+        <div className="border-t border-gray-700 pt-8 text-center">
+          <p className="text-gray-500 text-sm">
+            © 2025 Moderate Ustaz Wears. All rights reserved.
           </p>
         </div>
       </div>
