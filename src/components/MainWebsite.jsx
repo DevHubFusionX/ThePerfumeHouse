@@ -1,6 +1,5 @@
 import React from 'react';
 import Hero from './Hero';
-import BusinessStats from './BusinessStats';
 import Shop from './Shop';
 import Combos from './Combos';
 import WhyChooseUs from './WhyChooseUs';
@@ -12,7 +11,6 @@ const MainWebsite = () => {
   return (
     <div className="min-h-screen font-sans">
       <Hero />
-      <BusinessStats />
       <Shop />
       <Combos />
       <WhyChooseUs />
