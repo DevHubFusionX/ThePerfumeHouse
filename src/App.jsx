@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
 import MainWebsite from './components/MainWebsite';
 import AllProducts from './components/AllProducts';
 import ProductDetails from './components/ProductDetails';
@@ -9,6 +10,7 @@ import AdminDashboard from './components/AdminDashboard';
 const App = () => {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<MainWebsite />} />
         <Route path="/products" element={<AllProducts />} />

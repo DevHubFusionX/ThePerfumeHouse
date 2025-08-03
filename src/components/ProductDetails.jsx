@@ -76,7 +76,7 @@ const ProductDetails = () => {
     (product.image ? [product.image] : ['https://via.placeholder.com/400x400?text=No+Image']));
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50 pt-24">
       <div className="container mx-auto px-6 py-8">
         <button 
           onClick={() => navigate(-1)}

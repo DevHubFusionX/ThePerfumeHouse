@@ -69,44 +69,37 @@ const AllProducts = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      <div className="bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <button 
-                onClick={() => navigate('/')}
-                className="mr-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                <FaArrowLeft className="text-gray-600" />
-              </button>
+      <div className="pt-20">
+        <div className="bg-white shadow-sm border-b mb-8">
+          <div className="container mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-gray-800">Our Collection</h1>
-                <p className="text-gray-600 text-sm">Discover premium textiles & quality wear</p>
+                <h1 className="text-3xl font-bold text-gray-800">Our Collection</h1>
+                <p className="text-gray-600">Discover premium textiles & quality wear</p>
               </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                <FaTh />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                <FaList />
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-lg transition-colors ${
+                    viewMode === 'grid' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  <FaTh />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-lg transition-colors ${
+                    viewMode === 'list' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  <FaList />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="container mx-auto px-6 py-8">
+        
+        <div className="container mx-auto px-6 pb-8">
         <div className="bg-white rounded-2xl shadow-sm p-6 mb-8">
           <div className="grid md:grid-cols-4 gap-4">
             <div className="relative">
