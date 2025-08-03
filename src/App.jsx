@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainWebsite from './components/MainWebsite';
 import AllProducts from './components/AllProducts';
+import ProductDetails from './components/ProductDetails';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 
@@ -11,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainWebsite />} />
         <Route path="/products" element={<AllProducts />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>

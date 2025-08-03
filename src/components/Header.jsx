@@ -9,9 +9,9 @@ const Header = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-green-800 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">MU</span>
+              <span className="text-white font-bold text-lg">MT</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">Moderate Ustaz Wears</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Moderate's Textile</h1>
           </div>
           <nav className="hidden md:flex space-x-8">
             <a href="#home" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Home</a>

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaSignOutAlt, FaHome, FaBoxes, FaBars } from 'react-icons/fa';
+import { FaHome, FaBoxes } from 'react-icons/fa';
+import AdminHeader from './admin/AdminHeader';
+import AdminSidebar from './admin/AdminSidebar';
+import ProductForm from './admin/ProductForm';
+import ProductCard from './ui/ProductCard';
 
 const AdminPanel = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('products');
@@ -7,7 +11,7 @@ const AdminPanel = ({ onLogout }) => {
   const [combos, setCombos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', price: '', category: '', image: null });
+  const [formData, setFormData] = useState({ name: '', price: '', category: '', description: '', images: [] });
   const [comboFormData, setComboFormData] = useState({ name: '', description: '', products: [], originalPrice: '', comboPrice: '', savings: '', image: null, popular: false });
   const [loading, setLoading] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -58,7 +62,14 @@ const AdminPanel = ({ onLogout }) => {
     formDataToSend.append('name', formData.name);
     formDataToSend.append('price', formData.price);
     formDataToSend.append('category', formData.category);
-    if (formData.image) formDataToSend.append('image', formData.image);
+    formDataToSend.append('description', formData.description);
+    
+    // Handle multiple images
+    if (formData.images && formData.images.length > 0) {
+      formData.images.forEach((image, index) => {
+        formDataToSend.append('images', image);
+      });
+    }
 
     try {
       const url = editingId 
@@ -78,7 +89,7 @@ const AdminPanel = ({ onLogout }) => {
       }
       
       fetchProducts();
-      setFormData({ name: '', price: '', category: '', image: null });
+      setFormData({ name: '', price: '', category: '', description: '', images: [] });
       setEditingId(null);
       setShowAddForm(false);
     } catch (error) {
@@ -89,7 +100,13 @@ const AdminPanel = ({ onLogout }) => {
   };
 
   const handleEdit = (product) => {
-    setFormData({ name: product.name, price: product.price, category: product.category, image: null });
+    setFormData({ 
+      name: product.name, 
+      price: product.price, 
+      category: product.category, 
+      description: product.description || '', 
+      images: [] 
+    });
     setEditingId(product._id);
     setShowAddForm(true);
   };
@@ -121,110 +138,25 @@ const AdminPanel = ({ onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3 sm:space-x-4 animate-fade-in">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-200">
-                <span className="text-white font-bold text-lg sm:text-xl">MU</span>
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-                <p className="text-xs sm:text-sm text-gray-500 hidden sm:block">Moderate Ustaz Management</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="bg-green-50 px-2 sm:px-4 py-1 sm:py-2 rounded-lg border border-green-200">
-                <span className="text-xs sm:text-sm text-green-700 font-medium">{activeTab === 'products' ? products.length : combos.length}</span>
-              </div>
-              <div className="hidden md:flex items-center space-x-3">
-                <button 
-                  onClick={() => setShowAddForm(true)}
-                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <FaPlus className="animate-pulse text-sm" /> 
-                  <span>Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
-                </button>
-                <button 
-                  onClick={() => setShowPasswordForm(true)}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <FaHome className="text-sm" /> 
-                  <span>Password</span>
-                </button>
-                <button 
-                  onClick={() => setShowEmailForm(true)}
-                  className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <FaEdit className="text-sm" /> 
-                  <span>Email</span>
-                </button>
-                <button 
-                  onClick={handleLogout}
-                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <FaSignOutAlt className="text-sm" /> 
-                  <span>Logout</span>
-                </button>
-              </div>
-              <button 
-                onClick={() => setSidebarOpen(true)}
-                className="md:hidden bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-xl shadow-lg transition-all"
-              >
-                <FaBars className="text-sm" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AdminHeader
+        activeTab={activeTab}
+        itemCount={activeTab === 'products' ? products.length : combos.length}
+        onAddNew={() => setShowAddForm(true)}
+        onChangePassword={() => setShowPasswordForm(true)}
+        onChangeEmail={() => setShowEmailForm(true)}
+        onLogout={handleLogout}
+        onToggleSidebar={() => setSidebarOpen(true)}
+      />
 
-      {/* Mobile Sidebar */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)}></div>
-          <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl transform transition-transform">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-8">
-                <h3 className="text-xl font-bold text-gray-800">Admin Menu</h3>
-                <button onClick={() => setSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg">
-                  <FaTimes className="text-gray-600" />
-                </button>
-              </div>
-              <div className="space-y-4">
-                <button 
-                  onClick={() => {setShowAddForm(true); setSidebarOpen(false);}}
-                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
-                >
-                  <FaPlus /> 
-                  <span>Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
-                </button>
-                <button 
-                  onClick={() => {setShowPasswordForm(true); setSidebarOpen(false);}}
-                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
-                >
-                  <FaHome /> 
-                  <span>Change Password</span>
-                </button>
-                <button 
-                  onClick={() => {setShowEmailForm(true); setSidebarOpen(false);}}
-                  className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
-                >
-                  <FaEdit /> 
-                  <span>Change Email</span>
-                </button>
-                <button 
-                  onClick={handleLogout}
-                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl flex items-center space-x-3 shadow-lg transition-all"
-                >
-                  <FaSignOutAlt /> 
-                  <span>Logout</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <AdminSidebar
+        isOpen={sidebarOpen}
+        activeTab={activeTab}
+        onClose={() => setSidebarOpen(false)}
+        onAddNew={() => setShowAddForm(true)}
+        onChangePassword={() => setShowPasswordForm(true)}
+        onChangeEmail={() => setShowEmailForm(true)}
+        onLogout={handleLogout}
+      />
 
       <div className="max-w-7xl mx-auto p-6 animate-slide-up">
         {/* Tabs */}
@@ -522,125 +454,33 @@ const AdminPanel = ({ onLogout }) => {
         )}
 
         {showAddForm && activeTab === 'products' && (
-          <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                <FaPlus className="text-white text-sm" />
-              </div>
-              <h2 className="text-2xl font-bold text-gray-800">{editingId ? 'Edit Product' : 'Add New Product'}</h2>
-            </div>
-            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Product Name</label>
-                <input
-                  type="text"
-                  placeholder="Enter product name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Price</label>
-                <input
-                  type="text"
-                  placeholder="e.g., ₦15,000"
-                  value={formData.price}
-                  onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Category</label>
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-                  required
-                >
-                  <option value="">Select Category</option>
-                  <option value="Traditional">Traditional</option>
-                  <option value="Casual">Casual</option>
-                  <option value="Premium">Premium</option>
-                  <option value="Accessories">Accessories</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Product Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFormData({...formData, image: e.target.files[0]})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-                />
-              </div>
-              <div className="flex space-x-4 md:col-span-2 pt-4">
-                <button 
-                  type="submit" 
-                  disabled={loading}
-                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none"
-                >
-                  <FaSave className={loading ? 'animate-spin' : ''} /> 
-                  <span>{loading ? 'Saving...' : 'Save Product'}</span>
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => {setShowAddForm(false); setEditingId(null); setFormData({ name: '', price: '', category: '', image: null });}}
-                  className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <FaTimes /> <span>Cancel</span>
-                </button>
-              </div>
-            </form>
-          </div>
+          <ProductForm
+            product={editingId ? products.find(p => p._id === editingId) : null}
+            onSubmit={handleSubmit}
+            onCancel={() => {
+              setShowAddForm(false);
+              setEditingId(null);
+              setFormData({ name: '', price: '', category: '', description: '', images: [] });
+            }}
+            loading={loading}
+          />
         )}
 
         {activeTab === 'products' && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product, index) => (
-            <div 
-              key={product._id} 
-              className="group bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200/50 animate-fade-in-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="relative overflow-hidden">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" 
+              <div 
+                key={product._id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ProductCard
+                  product={product}
+                  showActions={true}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute top-3 right-3">
-                  <span className="bg-white/90 backdrop-blur-sm text-gray-800 text-xs px-3 py-1 rounded-full font-semibold shadow-lg">
-                    {product.category}
-                  </span>
-                </div>
               </div>
-              <div className="p-5">
-                <div className="mb-3">
-                  <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-green-600 transition-colors duration-200">
-                    {product.name}
-                  </h3>
-                  <p className="text-2xl font-bold text-green-600">{product.price}</p>
-                </div>
-                <div className="flex space-x-2">
-                  <button 
-                    onClick={() => handleEdit(product)}
-                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 py-2.5 rounded-xl flex items-center justify-center space-x-1 text-sm font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    <FaEdit /> <span>Edit</span>
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(product._id)}
-                    className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2.5 rounded-xl flex items-center justify-center space-x-1 text-sm font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    <FaTrash /> <span>Delete</span>
-                  </button>
-                </div>
-              </div>
-            </div>
             ))}
           </div>
         )}
