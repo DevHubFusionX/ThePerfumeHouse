@@ -20,5 +20,19 @@ export const cache = {
       timestamp: Date.now()
     };
     localStorage.setItem(key, JSON.stringify(item));
+  },
+  
+  clear: (key) => {
+    if (key) {
+      localStorage.removeItem(key);
+    } else {
+      // Clear all cache items
+      const keys = Object.keys(localStorage);
+      keys.forEach(k => {
+        if (k === 'products' || k === 'combos') {
+          localStorage.removeItem(k);
+        }
+      });
+    }
   }
 };

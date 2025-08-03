@@ -3,10 +3,11 @@ import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
+const ProductCard = ({ product, showActions = false, onEdit, onDelete, isDeleting = false }) => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   
   const images = product.images && product.images.length > 0 
     ? product.images 
@@ -15,11 +16,19 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
     : ['https://via.placeholder.com/400x400?text=No+Image'];
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    setImageLoading(true);
+    setTimeout(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      setImageLoading(false);
+    }, 200);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    setImageLoading(true);
+    setTimeout(() => {
+      setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+      setImageLoading(false);
+    }, 200);
   };
 
   const handleCardClick = () => {
@@ -43,6 +52,12 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
           onError={() => setImageError(true)}
         />
         
+        {imageLoading && (
+          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+        
         {images.length > 1 && (
           <>
             <button
@@ -57,15 +72,23 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
             >
               <FaChevronRight size={10} className="sm:w-3 sm:h-3" />
             </button>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-              {images.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 max-w-[80%]">
+              {images.length <= 8 ? (
+                <div className="flex space-x-1 justify-center">
+                  {images.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`w-2 h-2 rounded-full ${
+                        index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-black/70 text-white px-2 py-1 rounded-full text-xs text-center">
+                  {currentImageIndex + 1} / {images.length}
+                </div>
+              )}
             </div>
           </>
         )}
@@ -113,11 +136,15 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
         
           {showActions ? (
             <div className="flex space-x-2">
-              <Button variant="secondary" size="sm" onClick={() => onEdit(product)}>
+              <Button variant="secondary" size="sm" onClick={() => onEdit(product)} disabled={isDeleting}>
                 Edit
               </Button>
-              <Button variant="danger" size="sm" onClick={() => onDelete(product._id)}>
-                Delete
+              <Button variant="danger" size="sm" onClick={() => onDelete(product._id)} disabled={isDeleting}>
+                {isDeleting ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  'Delete'
+                )}
               </Button>
             </div>
           ) : (

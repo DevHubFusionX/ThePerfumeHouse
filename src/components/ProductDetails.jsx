@@ -76,23 +76,23 @@ const ProductDetails = () => {
     (product.image ? [product.image] : ['https://via.placeholder.com/400x400?text=No+Image']));
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24">
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <button 
-          onClick={() => navigate(-1)}
-          className="flex items-center text-gray-600 hover:text-green-600 mb-6 sm:mb-8 transition-colors"
-        >
-          <FaArrowLeft className="mr-2" />
-          Back
-        </button>
+    <div className="min-h-screen bg-gray-50 pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <nav className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6 lg:mb-8">
+          <button onClick={() => navigate('/')} className="hover:text-green-600 transition-colors truncate">Home</button>
+          <span>/</span>
+          <button onClick={() => navigate('/products')} className="hover:text-green-600 transition-colors truncate">Products</button>
+          <span>/</span>
+          <span className="text-gray-900 truncate">{product.name}</span>
+        </nav>
 
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 p-4 sm:p-6 lg:p-8">
-            {/* Image Gallery */}
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16">
+          {/* Image Gallery */}
+          <div className="space-y-3 sm:space-y-4">
+            <div className="relative bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
+              <div className="relative aspect-square bg-gray-50 rounded-lg sm:rounded-xl overflow-hidden">
                 <img 
-                  src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : currentImages[currentImageIndex]} 
+                  src={imageError ? 'https://via.placeholder.com/600x600?text=No+Image' : currentImages[currentImageIndex]} 
                   alt={product.name}
                   className="w-full h-full object-cover"
                   onError={() => setImageError(true)}
@@ -102,127 +102,147 @@ const ProductDetails = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition-colors"
+                      className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all"
                     >
                       <FaChevronLeft size={14} className="sm:w-4 sm:h-4" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition-colors"
+                      className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all"
                     >
                       <FaChevronRight size={14} className="sm:w-4 sm:h-4" />
                     </button>
                     
-                    {/* Image counter for mobile */}
-                    <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-2 py-1 rounded-full text-xs sm:text-sm">
+                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/70 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                       {currentImageIndex + 1} / {currentImages.length}
                     </div>
                   </>
                 )}
               </div>
+            </div>
 
-              {/* Image Thumbnails */}
-              {currentImages.length > 1 && (
-                <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
-                  {currentImages.map((image, index) => (
+            {/* Thumbnail Grid */}
+            {currentImages.length > 1 && (
+              <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
+                <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1.5 sm:gap-2">
+                  {currentImages.slice(0, 12).map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-colors ${
-                        index === currentImageIndex ? 'border-green-600' : 'border-gray-200'
+                      className={`aspect-square rounded-md sm:rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${
+                        index === currentImageIndex ? 'border-green-500 ring-1 sm:ring-2 ring-green-200' : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      <img src={image} alt="" className="w-full h-full object-cover" />
+                      <img src={image} alt={`View ${index + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                  {currentImages.length > 12 && (
+                    <div className="aspect-square bg-gray-100 rounded-md sm:rounded-lg flex items-center justify-center text-xs text-gray-500 font-medium">
+                      +{currentImages.length - 12}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Product Info */}
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+              <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
+                <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                  {product.category}
+                </span>
+                <span className="text-gray-400 hidden sm:inline">•</span>
+                <span className="text-xs sm:text-sm text-gray-500">In Stock</span>
+              </div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">{product.name}</h1>
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600">{product.price}</p>
+                <span className="text-sm sm:text-base lg:text-lg text-gray-500">per piece</span>
+              </div>
+            </div>
+
+            {/* Color Variants */}
+            {product.colors && product.colors.length > 0 && (
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Available Colors</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                  {product.colors.map((color, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleColorSelect(color)}
+                      className={`p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all text-center ${
+                        selectedColor?.name === color.name
+                          ? 'border-green-500 bg-green-50 text-green-800 ring-1 sm:ring-2 ring-green-200'
+                          : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="font-medium text-sm sm:text-base">{color.name}</div>
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
-
-            {/* Product Info */}
-            <div className="space-y-4 sm:space-y-6">
-              <div>
-                <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-3">
-                  {product.category}
-                </span>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{product.name}</h1>
-                <p className="text-2xl sm:text-3xl font-bold text-green-600">{product.price}</p>
               </div>
+            )}
 
-              {/* Color Variants */}
-              {product.colors && product.colors.length > 0 && (
-                <div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Available Colors</h3>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
-                    {product.colors.map((color, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleColorSelect(color)}
-                        className={`px-3 sm:px-4 py-2 rounded-lg border-2 transition-colors text-sm sm:text-base ${
-                          selectedColor?.name === color.name
-                            ? 'border-green-600 bg-green-50 text-green-800'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        {color.name}
-                      </button>
-                    ))}
-                  </div>
+            {/* Description */}
+            {product.description && (
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Product Description</h3>
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{product.description}</p>
+              </div>
+            )}
+
+            {/* Fabric Details */}
+            {(product.fabricType || product.texture || product.quality || product.care) && (
+              <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Product Details</h3>
+                <div className="space-y-3 sm:space-y-4">
+                  {product.fabricType && (
+                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                      <span className="font-medium text-gray-700 text-sm sm:text-base">Fabric Type</span>
+                      <span className="text-gray-900 text-sm sm:text-base">{product.fabricType}</span>
+                    </div>
+                  )}
+                  {product.texture && (
+                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                      <span className="font-medium text-gray-700 text-sm sm:text-base">Texture</span>
+                      <span className="text-gray-900 text-sm sm:text-base">{product.texture}</span>
+                    </div>
+                  )}
+                  {product.quality && (
+                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                      <span className="font-medium text-gray-700 text-sm sm:text-base">Quality</span>
+                      <span className="text-gray-900 text-sm sm:text-base">{product.quality}</span>
+                    </div>
+                  )}
+                  {product.care && (
+                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 gap-1 sm:gap-2">
+                      <span className="font-medium text-gray-700 text-sm sm:text-base">Care Instructions</span>
+                      <span className="text-gray-900 text-sm sm:text-base">{product.care}</span>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Description */}
-              {product.description && (
-                <div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Description</h3>
-                  <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{product.description}</p>
-                </div>
-              )}
-
-              {/* Fabric Details */}
-              {product.fabricType && (
-                <div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Fabric Details</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                    {product.fabricType && (
-                      <div className="flex flex-col sm:flex-row">
-                        <span className="font-medium text-gray-700 sm:min-w-[80px]">Type:</span>
-                        <span className="sm:ml-2 text-gray-600">{product.fabricType}</span>
-                      </div>
-                    )}
-                    {product.texture && (
-                      <div className="flex flex-col sm:flex-row">
-                        <span className="font-medium text-gray-700 sm:min-w-[80px]">Texture:</span>
-                        <span className="sm:ml-2 text-gray-600">{product.texture}</span>
-                      </div>
-                    )}
-                    {product.quality && (
-                      <div className="flex flex-col sm:flex-row">
-                        <span className="font-medium text-gray-700 sm:min-w-[80px]">Quality:</span>
-                        <span className="sm:ml-2 text-gray-600">{product.quality}</span>
-                      </div>
-                    )}
-                    {product.care && (
-                      <div className="flex flex-col sm:flex-row">
-                        <span className="font-medium text-gray-700 sm:min-w-[80px]">Care:</span>
-                        <span className="sm:ml-2 text-gray-600">{product.care}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Get Item Button */}
-              <div className="pt-4">
-                <Button
-                  variant="whatsapp"
-                  size="lg"
-                  className="w-full"
-                  icon={<FaWhatsapp size={20} />}
-                  onClick={handleWhatsAppOrder}
-                >
-                  Get Item via WhatsApp
-                </Button>
+            {/* Order Section */}
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border-2 border-green-100">
+              <div className="text-center mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Ready to Order?</h3>
+                <p className="text-gray-600 text-sm sm:text-base">Contact us directly via WhatsApp for instant service</p>
+              </div>
+              <Button
+                variant="whatsapp"
+                size="lg"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all"
+                icon={<FaWhatsapp size={20} className="sm:w-6 sm:h-6" />}
+                onClick={handleWhatsAppOrder}
+              >
+                Order via WhatsApp
+              </Button>
+              <div className="mt-3 sm:mt-4 text-center">
+                <p className="text-xs sm:text-sm text-gray-500">Fast response • Secure payment • Nationwide delivery</p>
               </div>
             </div>
           </div>

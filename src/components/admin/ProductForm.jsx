@@ -59,47 +59,47 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
+      <div className="flex items-center space-x-3 mb-4 sm:mb-6">
+        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
           <FaPlus className="text-white text-sm" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
           {product ? 'Edit Product' : 'Add New Product'}
         </h2>
       </div>
       
-      <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Product Name</label>
+          <label className="text-sm font-medium text-gray-700">Product Name</label>
           <input
             type="text"
             placeholder="Enter product name"
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
             required
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Price</label>
+          <label className="text-sm font-medium text-gray-700">Price</label>
           <input
             type="text"
             placeholder="e.g., ₦15,000"
             value={formData.price}
             onChange={(e) => setFormData({...formData, price: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
             required
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Category</label>
+          <label className="text-sm font-medium text-gray-700">Category</label>
           <select
             value={formData.category}
             onChange={(e) => setFormData({...formData, category: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
             required
           >
             <option value="">Select Category</option>
@@ -112,87 +112,100 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Product Images</label>
+          <label className="text-sm font-medium text-gray-700">Product Images</label>
           <input
             type="file"
             accept="image/*"
             multiple
             onChange={handleImageChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-green-50 file:text-green-700 file:text-xs"
           />
           <p className="text-xs text-gray-500">Select multiple images for this product</p>
         </div>
         
-        <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold text-gray-700">Description</label>
+        <div className="space-y-2 sm:col-span-2">
+          <label className="text-sm font-medium text-gray-700">Description</label>
           <textarea
             placeholder="Enter product description"
             value={formData.description}
             onChange={(e) => setFormData({...formData, description: e.target.value})}
             rows={3}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 resize-none"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm resize-none"
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Fabric Type</label>
+          <label className="text-sm font-medium text-gray-700">Fabric Type</label>
           <input
             type="text"
             placeholder="e.g., Cotton, Silk, Polyester"
             value={formData.fabricType}
             onChange={(e) => setFormData({...formData, fabricType: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Texture</label>
+          <label className="text-sm font-medium text-gray-700">Texture</label>
           <input
             type="text"
             placeholder="e.g., Smooth, Rough, Soft"
             value={formData.texture}
             onChange={(e) => setFormData({...formData, texture: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Quality</label>
+          <label className="text-sm font-medium text-gray-700">Quality</label>
           <input
             type="text"
             placeholder="e.g., Premium, Standard, Luxury"
             value={formData.quality}
             onChange={(e) => setFormData({...formData, quality: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
           />
         </div>
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700">Care Instructions</label>
+          <label className="text-sm font-medium text-gray-700">Care Instructions</label>
           <input
             type="text"
             placeholder="e.g., Hand wash, Dry clean only"
             value={formData.care}
             onChange={(e) => setFormData({...formData, care: e.target.value})}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
           />
         </div>
         
-        <div className="flex space-x-4 md:col-span-2 pt-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:col-span-2 pt-4">
           <Button 
             type="submit" 
-            loading={loading}
-            icon={<FaSave />}
+            disabled={loading}
+            className={`bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors ${loading ? 'cursor-not-allowed' : ''}`}
           >
-            {loading ? 'Saving...' : 'Save Product'}
+            {loading ? (
+              <>
+                <div className="w-5 h-5 bg-green-600 rounded-lg flex items-center justify-center animate-spin">
+                  <span className="text-white font-semibold text-xs">MT</span>
+                </div>
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <FaSave />
+                <span>Save Product</span>
+              </>
+            )}
           </Button>
           <Button 
             type="button" 
-            variant="secondary"
+            disabled={loading}
             onClick={onCancel}
-            icon={<FaTimes />}
+            className="bg-gray-500 hover:bg-gray-600 disabled:bg-gray-300 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors"
           >
-            Cancel
+            <FaTimes />
+            <span>Cancel</span>
           </Button>
         </div>
       </form>

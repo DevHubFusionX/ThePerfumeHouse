@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPlus, FaSignOutAlt, FaHome, FaEdit, FaBars } from 'react-icons/fa';
+import { FaPlus, FaSignOutAlt, FaKey, FaEnvelope, FaBars, FaChartLine } from 'react-icons/fa';
 import Button from '../ui/Button';
 
 const AdminHeader = ({ 
@@ -12,42 +12,69 @@ const AdminHeader = ({
   onToggleSidebar 
 }) => {
   return (
-    <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
         <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-3 sm:space-x-4 animate-fade-in">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-200">
-              <span className="text-white font-bold text-lg sm:text-xl">MT</span>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-semibold text-sm">MT</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+                <p className="text-sm text-gray-500">Moderate's Textile</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg sm:text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-              <p className="text-xs sm:text-sm text-gray-500 hidden sm:block">Moderate's Textile Management</p>
+            
+            <div className="hidden sm:flex items-center space-x-6 ml-8">
+              <div className="flex items-center space-x-2">
+                <FaChartLine className="text-gray-400 text-sm" />
+                <span className="text-sm text-gray-600">Total {activeTab}</span>
+                <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-sm font-medium">
+                  {itemCount}
+                </span>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="bg-green-50 px-2 sm:px-4 py-1 sm:py-2 rounded-lg border border-green-200">
-              <span className="text-xs sm:text-sm text-green-700 font-medium">{itemCount}</span>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-3">
-              <Button onClick={onAddNew} icon={<FaPlus />}>
-                Add {activeTab === 'products' ? 'Product' : 'Combo'}
+          <div className="flex items-center space-x-3">
+            <div className="hidden lg:flex items-center space-x-2">
+              <Button 
+                onClick={onAddNew} 
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2"
+              >
+                <FaPlus className="text-xs" />
+                <span>Add {activeTab === 'products' ? 'Product' : 'Combo'}</span>
               </Button>
-              <Button variant="secondary" onClick={onChangePassword} icon={<FaHome />}>
-                Password
-              </Button>
-              <Button variant="secondary" onClick={onChangeEmail} icon={<FaEdit />}>
-                Email
-              </Button>
-              <Button variant="danger" onClick={onLogout} icon={<FaSignOutAlt />}>
-                Logout
-              </Button>
+              
+              <div className="flex items-center space-x-1">
+                <button 
+                  onClick={onChangePassword}
+                  className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Change Password"
+                >
+                  <FaKey className="text-sm" />
+                </button>
+                <button 
+                  onClick={onChangeEmail}
+                  className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Change Email"
+                >
+                  <FaEnvelope className="text-sm" />
+                </button>
+                <button 
+                  onClick={onLogout}
+                  className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Logout"
+                >
+                  <FaSignOutAlt className="text-sm" />
+                </button>
+              </div>
             </div>
             
             <button 
               onClick={onToggleSidebar}
-              className="md:hidden bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-xl shadow-lg transition-all"
+              className="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <FaBars className="text-sm" />
             </button>

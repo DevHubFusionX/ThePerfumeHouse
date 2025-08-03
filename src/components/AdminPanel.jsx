@@ -4,6 +4,7 @@ import AdminHeader from './admin/AdminHeader';
 import AdminSidebar from './admin/AdminSidebar';
 import ProductForm from './admin/ProductForm';
 import ProductCard from './ui/ProductCard';
+import { cache } from '../utils/cache';
 
 const AdminPanel = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('products');
@@ -21,6 +22,7 @@ const AdminPanel = ({ onLogout }) => {
   const [emailData, setEmailData] = useState({ currentPassword: '', newEmail: '' });
   const [emailLoading, setEmailLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -74,6 +76,8 @@ const AdminPanel = ({ onLogout }) => {
         return;
       }
       
+      // Clear cache to ensure frontend updates immediately
+      cache.clear('products');
       fetchProducts();
       setFormData({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
       setEditingId(null);
@@ -103,6 +107,7 @@ const AdminPanel = ({ onLogout }) => {
 
   const handleDelete = async (id) => {
     if (confirm('Delete this product?')) {
+      setDeletingId(id);
       try {
         const response = await fetch(`https://moderate-ustaz-backend.onrender.com/api/admin/products/${id}`, { 
           method: 'DELETE',
@@ -114,9 +119,13 @@ const AdminPanel = ({ onLogout }) => {
           return;
         }
         
+        // Clear cache to ensure frontend updates immediately
+        cache.clear('products');
         fetchProducts();
       } catch (error) {
         console.error('Error deleting product:', error);
+      } finally {
+        setDeletingId(null);
       }
     }
   };
@@ -127,7 +136,7 @@ const AdminPanel = ({ onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <AdminHeader
         activeTab={activeTab}
         itemCount={activeTab === 'products' ? products.length : combos.length}
@@ -148,38 +157,42 @@ const AdminPanel = ({ onLogout }) => {
         onLogout={handleLogout}
       />
 
-      <div className="max-w-7xl mx-auto p-6 animate-slide-up">
-        {/* Tabs */}
-        <div className="flex space-x-1 mb-8 bg-gray-200 p-1 rounded-xl w-fit">
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'products'
-                ? 'bg-white text-green-600 shadow-md'
-                : 'text-gray-600 hover:text-gray-800'
-            }`}
-          >
-            <FaHome className="inline mr-2" />Products
-          </button>
-          <button
-            onClick={() => setActiveTab('combos')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'combos'
-                ? 'bg-white text-green-600 shadow-md'
-                : 'text-gray-600 hover:text-gray-800'
-            }`}
-          >
-            <FaBoxes className="inline mr-2" />Combos
-          </button>
+      <div className="max-w-7xl mx-auto p-4 sm:p-6">
+        {/* Navigation Tabs */}
+        <div className="mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === 'products'
+                    ? 'border-green-500 text-green-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                <FaHome className="inline mr-2" />Products
+              </button>
+              <button
+                onClick={() => setActiveTab('combos')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === 'combos'
+                    ? 'border-green-500 text-green-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                <FaBoxes className="inline mr-2" />Combos
+              </button>
+            </nav>
+          </div>
         </div>
 
         {showEmailForm && (
-          <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
+            <div className="flex items-center space-x-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                 <FaEdit className="text-white text-sm" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-800">Change Email</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Change Email</h2>
             </div>
             <form onSubmit={async (e) => {
               e.preventDefault();
@@ -203,33 +216,33 @@ const AdminPanel = ({ onLogout }) => {
               } finally {
                 setEmailLoading(false);
               }
-            }} className="grid gap-6 max-w-md">
+            }} className="space-y-4 max-w-md">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Current Password</label>
+                <label className="text-sm font-medium text-gray-700">Current Password</label>
                 <input
                   type="password"
                   value={emailData.currentPassword}
                   onChange={(e) => setEmailData({...emailData, currentPassword: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">New Email</label>
+                <label className="text-sm font-medium text-gray-700">New Email</label>
                 <input
                   type="email"
                   value={emailData.newEmail}
                   onChange={(e) => setEmailData({...emailData, newEmail: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
                   required
                 />
               </div>
-              <div className="flex space-x-4 pt-4">
-                <button type="submit" disabled={emailLoading} className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <button type="submit" disabled={emailLoading} className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm font-medium transition-colors">
                   <FaSave className={emailLoading ? 'animate-spin' : ''} /> 
                   <span>{emailLoading ? 'Changing...' : 'Change Email'}</span>
                 </button>
-                <button type="button" onClick={() => {setShowEmailForm(false); setEmailData({ currentPassword: '', newEmail: '' });}} className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                <button type="button" onClick={() => {setShowEmailForm(false); setEmailData({ currentPassword: '', newEmail: '' });}} className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm font-medium transition-colors">
                   <FaTimes /> <span>Cancel</span>
                 </button>
               </div>
@@ -238,12 +251,12 @@ const AdminPanel = ({ onLogout }) => {
         )}
 
         {showPasswordForm && (
-          <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl mb-8 border border-gray-200/50 animate-scale-in">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
+            <div className="flex items-center space-x-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <FaHome className="text-white text-sm" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-800">Change Password</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Change Password</h2>
             </div>
             <form onSubmit={async (e) => {
               e.preventDefault();
@@ -271,43 +284,43 @@ const AdminPanel = ({ onLogout }) => {
               } finally {
                 setPasswordLoading(false);
               }
-            }} className="grid gap-6 max-w-md">
+            }} className="space-y-4 max-w-md">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Current Password</label>
+                <label className="text-sm font-medium text-gray-700">Current Password</label>
                 <input
                   type="password"
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">New Password</label>
+                <label className="text-sm font-medium text-gray-700">New Password</label>
                 <input
                   type="password"
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Confirm New Password</label>
+                <label className="text-sm font-medium text-gray-700">Confirm New Password</label>
                 <input
                   type="password"
                   value={passwordData.confirmPassword}
                   onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   required
                 />
               </div>
-              <div className="flex space-x-4 pt-4">
-                <button type="submit" disabled={passwordLoading} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <button type="submit" disabled={passwordLoading} className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm font-medium transition-colors">
                   <FaSave className={passwordLoading ? 'animate-spin' : ''} /> 
                   <span>{passwordLoading ? 'Changing...' : 'Change Password'}</span>
                 </button>
-                <button type="button" onClick={() => {setShowPasswordForm(false); setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });}} className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                <button type="button" onClick={() => {setShowPasswordForm(false); setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });}} className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm font-medium transition-colors">
                   <FaTimes /> <span>Cancel</span>
                 </button>
               </div>
@@ -457,75 +470,112 @@ const AdminPanel = ({ onLogout }) => {
         )}
 
         {activeTab === 'products' && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product, index) => (
-              <div 
-                key={product._id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <ProductCard
-                  product={product}
-                  showActions={true}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                />
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold text-gray-900">Products</h2>
+                <button
+                  onClick={() => setShowAddForm(true)}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
+                >
+                  <FaHome className="text-xs" />
+                  <span>Add Product</span>
+                </button>
               </div>
-            ))}
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {products.map((product) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    showActions={true}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    isDeleting={deletingId === product._id}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
         {activeTab === 'combos' && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {combos.map((combo, index) => (
-              <div 
-                key={combo._id} 
-                className="group bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200/50 animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={combo.image} 
-                    alt={combo.name} 
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" 
-                  />
-                  {combo.popular && (
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg">
-                        Popular
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-5">
-                  <div className="mb-3">
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">{combo.name}</h3>
-                    <p className="text-sm text-gray-600 mb-2">{combo.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-green-600">{combo.comboPrice}</span>
-                      <span className="text-sm text-gray-500 line-through">{combo.originalPrice}</span>
-                    </div>
-                    <span className="text-xs text-red-600 font-semibold">Save {combo.savings}</span>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 py-2.5 rounded-xl flex items-center justify-center space-x-1 text-sm font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                      <FaEdit /> <span>Edit</span>
-                    </button>
-                    <button className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2.5 rounded-xl flex items-center justify-center space-x-1 text-sm font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                      <FaTrash /> <span>Delete</span>
-                    </button>
-                  </div>
-                </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold text-gray-900">Combos</h2>
+                <button
+                  onClick={() => setShowAddForm(true)}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
+                >
+                  <FaBoxes className="text-xs" />
+                  <span>Add Combo</span>
+                </button>
               </div>
-            ))}
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {combos.map((combo) => (
+                  <div 
+                    key={combo._id} 
+                    className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="relative">
+                      <img 
+                        src={combo.image} 
+                        alt={combo.name} 
+                        className="w-full h-48 object-cover" 
+                      />
+                      {combo.popular && (
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                            Popular
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-1">{combo.name}</h3>
+                      <p className="text-sm text-gray-600 mb-3">{combo.description}</p>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-lg font-semibold text-green-600">{combo.comboPrice}</span>
+                        <span className="text-sm text-gray-500 line-through">{combo.originalPrice}</span>
+                      </div>
+                      <p className="text-xs text-red-600 font-medium mb-4">Save {combo.savings}</p>
+                      <div className="flex space-x-2">
+                        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                          Edit
+                        </button>
+                        <button className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
            
         {((activeTab === 'products' && products.length === 0) || (activeTab === 'combos' && combos.length === 0)) && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
-              No {activeTab} found. Add your first {activeTab.slice(0, -1)}!
-            </p>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="text-center py-12">
+              <div className="w-12 h-12 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                {activeTab === 'products' ? <FaHome className="text-gray-400" /> : <FaBoxes className="text-gray-400" />}
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No {activeTab} yet</h3>
+              <p className="text-gray-500 mb-6">
+                Get started by adding your first {activeTab.slice(0, -1)}.
+              </p>
+              <button
+                onClick={() => setShowAddForm(true)}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Add {activeTab === 'products' ? 'Product' : 'Combo'}
+              </button>
+            </div>
           </div>
         )}
       </div>
