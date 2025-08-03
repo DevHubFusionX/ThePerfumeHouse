@@ -36,9 +36,15 @@ const Shop = () => {
     <section id="shop" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Featured Collection</h2>
+          <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            🎆 Best Sellers
+          </div>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Premium Collection</h2>
           <div className="w-16 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Handpicked premium textiles showcasing our finest quality and craftsmanship</p>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Discover our most popular products trusted by thousands of customers. 
+            Each item is carefully selected for quality, durability, and style.
+          </p>
         </div>
         
         {loading ? (
@@ -61,13 +67,17 @@ const Shop = () => {
               ))}
             </div>
             
-            <div className="text-center mt-12">
-              <a href="/products" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-                <span>View All Products</span>
-                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+            <div className="text-center mt-16">
+              <div className="bg-gray-50 rounded-2xl p-8 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">Explore Our Full Catalog</h3>
+                <p className="text-gray-600 mb-6">Browse through our complete collection of over 100+ premium textile products</p>
+                <a href="/products" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                  <span>View All Products</span>
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </>
         )}

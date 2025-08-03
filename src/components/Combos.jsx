@@ -113,9 +113,15 @@ const Combos = () => {
     <section id="combos" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Featured Combos</h2>
+          <div className="inline-flex items-center bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            💰 Save Up to 25%
+          </div>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Value Combo Packages</h2>
           <div className="w-16 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Handpicked combo deals offering maximum value and savings</p>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Smart bundles designed to give you more value for your money. 
+            Perfect for bulk purchases and complete wardrobe solutions.
+          </p>
         </div>
         
         {loading ? (
@@ -138,13 +144,17 @@ const Combos = () => {
               ))}
             </div>
             
-            <div className="text-center mt-12">
-              <a href="/combos" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-                <span>View All Combos</span>
-                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+            <div className="text-center mt-16">
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-8 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">More Savings Await</h3>
+                <p className="text-gray-600 mb-6">Discover all our combo deals and save more on bulk purchases</p>
+                <a href="/combos" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                  <span>View All Combos</span>
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </>
         )}
