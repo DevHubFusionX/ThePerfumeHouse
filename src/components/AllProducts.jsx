@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaArrowLeft, FaSearch, FaFilter, FaGrid3X3, FaList } from 'react-icons/fa';
+import { FaArrowLeft, FaSearch, FaFilter, FaTh, FaList } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
@@ -91,7 +91,7 @@ const AllProducts = () => {
                   viewMode === 'grid' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
-                <FaGrid3X3 />
+                <FaTh />
               </button>
               <button
                 onClick={() => setViewMode('list')}
