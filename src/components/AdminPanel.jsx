@@ -11,7 +11,7 @@ const AdminPanel = ({ onLogout }) => {
   const [combos, setCombos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', price: '', category: '', description: '', images: [] });
+  const [formData, setFormData] = useState({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
   const [comboFormData, setComboFormData] = useState({ name: '', description: '', products: [], originalPrice: '', comboPrice: '', savings: '', image: null, popular: false });
   const [loading, setLoading] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -54,22 +54,8 @@ const AdminPanel = ({ onLogout }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (formDataToSend) => {
     setLoading(true);
-    
-    const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('price', formData.price);
-    formDataToSend.append('category', formData.category);
-    formDataToSend.append('description', formData.description);
-    
-    // Handle multiple images
-    if (formData.images && formData.images.length > 0) {
-      formData.images.forEach((image, index) => {
-        formDataToSend.append('images', image);
-      });
-    }
 
     try {
       const url = editingId 
@@ -89,7 +75,7 @@ const AdminPanel = ({ onLogout }) => {
       }
       
       fetchProducts();
-      setFormData({ name: '', price: '', category: '', description: '', images: [] });
+      setFormData({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
       setEditingId(null);
       setShowAddForm(false);
     } catch (error) {
@@ -104,7 +90,11 @@ const AdminPanel = ({ onLogout }) => {
       name: product.name, 
       price: product.price, 
       category: product.category, 
-      description: product.description || '', 
+      description: product.description || '',
+      fabricType: product.fabricType || '',
+      texture: product.texture || '',
+      quality: product.quality || '',
+      care: product.care || '',
       images: [] 
     });
     setEditingId(product._id);
@@ -460,7 +450,7 @@ const AdminPanel = ({ onLogout }) => {
             onCancel={() => {
               setShowAddForm(false);
               setEditingId(null);
-              setFormData({ name: '', price: '', category: '', description: '', images: [] });
+              setFormData({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
             }}
             loading={loading}
           />

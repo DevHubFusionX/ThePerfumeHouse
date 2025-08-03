@@ -10,6 +10,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     fetchProduct();
@@ -70,7 +71,9 @@ const ProductDetails = () => {
     );
   }
 
-  const currentImages = selectedColor?.images || product.images || [product.image];
+  const currentImages = selectedColor?.images || 
+    (product.images && product.images.length > 0 ? product.images : 
+    (product.image ? [product.image] : ['https://via.placeholder.com/400x400?text=No+Image']));
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
@@ -89,9 +92,10 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden">
                 <img 
-                  src={currentImages[currentImageIndex]} 
+                  src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : currentImages[currentImageIndex]} 
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  onError={() => setImageError(true)}
                 />
                 
                 {currentImages.length > 1 && (

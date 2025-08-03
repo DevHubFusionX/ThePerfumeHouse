@@ -6,7 +6,13 @@ import Button from './Button';
 const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = product.images || [product.image];
+  const [imageError, setImageError] = useState(false);
+  
+  const images = product.images && product.images.length > 0 
+    ? product.images 
+    : product.image 
+    ? [product.image] 
+    : ['https://via.placeholder.com/400x400?text=No+Image'];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -31,9 +37,10 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
     >
       <div className="relative overflow-hidden">
         <img 
-          src={images[currentImageIndex]} 
+          src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : images[currentImageIndex]} 
           alt={product.name} 
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
+          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={() => setImageError(true)}
         />
         
         {images.length > 1 && (
