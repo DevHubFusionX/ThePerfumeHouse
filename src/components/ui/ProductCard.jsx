@@ -30,16 +30,16 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
 
   return (
     <div 
-      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 ${
+      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 h-[400px] flex flex-col ${
         !showActions ? 'cursor-pointer' : ''
       }`}
       onClick={handleCardClick}
     >
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden h-48 flex-shrink-0">
         <img 
           src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : images[currentImageIndex]} 
           alt={product.name} 
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={() => setImageError(true)}
         />
         
@@ -75,14 +75,15 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
         </div>
       </div>
       
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-        {product.description && (
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
-        )}
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-2xl font-bold text-green-600">{product.price}</span>
-        </div>
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">{product.name}</h3>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2 flex-1 min-h-[2.5rem]">
+          {product.description || 'Premium quality textile product'}
+        </p>
+        <div className="mt-auto">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xl font-bold text-green-600">{product.price}</span>
+          </div>
         
         {showActions ? (
           <div className="flex space-x-2">
@@ -106,6 +107,7 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
             Order via WhatsApp
           </Button>
         )}
+        </div>
       </div>
     </div>
   );
