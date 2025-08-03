@@ -7,82 +7,109 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <>
-      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-3">
-            <Logo size="md" />
-            <h1 className="text-2xl font-bold text-gray-800">Moderate's Textile</h1>
-          </Link>
-          <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Home</Link>
-            <Link to="/products" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Products</Link>
-            <Link to="/combos" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Combos</Link>
-            <Link to="/#order" className="text-gray-700 hover:text-green-800 font-medium transition-colors">How to Order</Link>
-            <Link to="/#contact" className="text-gray-700 hover:text-green-800 font-medium transition-colors">Contact</Link>
-          </nav>
-          <div className="flex items-center space-x-3">
-            <div className="hidden sm:flex space-x-3">
-              <a href="https://wa.me/2347069257877" className="text-green-600 hover:text-green-700 transition-colors">
-                <FaWhatsapp size={20} />
-              </a>
-              <a href="https://x.com/moderate_ustaz" className="text-blue-500 hover:text-blue-600 transition-colors">
-                <FaTwitter size={20} />
-              </a>
+      <header className="fixed top-0 w-full bg-gradient-to-r from-white via-green-50/30 to-white backdrop-blur-md shadow-lg border-b border-green-100/50 z-50">
+        {/* Decorative top line */}
+        <div className="h-1 bg-gradient-to-r from-green-400 via-green-600 to-green-400"></div>
+        
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            {/* Logo Section with unique styling */}
+            <Link to="/" className="group flex items-center space-x-3 relative">
+              <div className="relative">
+                <div className="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <Logo size="md" className="relative z-10" />
+              </div>
+              <div className="relative">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-green-800 bg-clip-text text-transparent">
+                  Moderate's Textile
+                </h1>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-400 to-green-600 group-hover:w-full transition-all duration-300"></div>
+              </div>
+            </Link>
+            
+            {/* Navigation with unique pill design */}
+            <nav className="hidden md:flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 shadow-md border border-green-100">
+              <div className="flex space-x-1">
+                <Link to="/" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
+                  <span className="relative z-10">Home</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </Link>
+                <Link to="/products" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
+                  <span className="relative z-10">Products</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </Link>
+                <Link to="/combos" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
+                  <span className="relative z-10">Combos</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </Link>
+              </div>
+            </nav>
+            
+            {/* Action buttons with creative styling */}
+            <div className="flex items-center space-x-3">
+              <div className="hidden sm:flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-md border border-green-100">
+                <a href="https://wa.me/2347069257877" className="relative p-2 text-green-600 hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaWhatsapp size={18} className="relative z-10" />
+                </a>
+                <a href="https://x.com/moderate_ustaz" className="relative p-2 text-blue-500 hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-blue-500 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaTwitter size={18} className="relative z-10" />
+                </a>
+              </div>
+              
+              {/* Unique mobile menu button */}
+              <button 
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden relative p-3 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-green-100 text-gray-700 hover:text-green-700 transition-all duration-300 group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative z-10">
+                  {mobileMenuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
+                </div>
+              </button>
             </div>
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-green-800 transition-colors"
-            >
-              {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-            </button>
           </div>
         </div>
         
-        {/* Mobile Menu */}
+        {/* Unique Mobile Menu with slide animation */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
-            <nav className="px-6 py-4 space-y-4">
+          <div className="md:hidden bg-gradient-to-br from-white via-green-50/30 to-white backdrop-blur-md border-t border-green-200/50 shadow-xl">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-green-600 to-green-400"></div>
+            <nav className="px-6 py-6 space-y-2">
               <Link 
                 to="/" 
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-700 hover:text-green-800 font-medium transition-colors py-2"
+                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
               >
-                Home
+                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+                <span className="relative z-10">Home</span>
               </Link>
               <Link 
                 to="/products" 
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-700 hover:text-green-800 font-medium transition-colors py-2"
+                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
               >
-                Products
+                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+                <span className="relative z-10">Products</span>
               </Link>
               <Link 
                 to="/combos" 
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-700 hover:text-green-800 font-medium transition-colors py-2"
+                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
               >
-                Combos
+                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+                <span className="relative z-10">Combos</span>
               </Link>
-              <Link 
-                to="/#order" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-700 hover:text-green-800 font-medium transition-colors py-2"
-              >
-                How to Order
-              </Link>
-              <Link 
-                to="/#contact" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-700 hover:text-green-800 font-medium transition-colors py-2"
-              >
-                Contact
-              </Link>
-              <div className="flex space-x-4 pt-4 border-t border-gray-200">
-                <a href="https://wa.me/2347069257877" className="text-green-600 hover:text-green-700 transition-colors">
-                  <FaWhatsapp size={24} />
+              
+              <div className="flex justify-center space-x-4 pt-6 mt-6 border-t border-green-200/50">
+                <a href="https://wa.me/2347069257877" className="relative p-3 bg-green-50 text-green-600 hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaWhatsapp size={20} className="relative z-10" />
                 </a>
-                <a href="https://x.com/moderate_ustaz" className="text-blue-500 hover:text-blue-600 transition-colors">
-                  <FaTwitter size={24} />
+                <a href="https://x.com/moderate_ustaz" className="relative p-3 bg-blue-50 text-blue-500 hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-blue-500 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaTwitter size={20} className="relative z-10" />
                 </a>
               </div>
             </nav>

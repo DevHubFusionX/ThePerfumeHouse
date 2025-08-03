@@ -30,12 +30,12 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
 
   return (
     <div 
-      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 h-[450px] flex flex-col ${
+      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 h-[450px] sm:h-[420px] md:h-[450px] flex flex-col ${
         !showActions ? 'cursor-pointer' : ''
       }`}
       onClick={handleCardClick}
     >
-      <div className="relative overflow-hidden h-52 flex-shrink-0">
+      <div className="relative overflow-hidden h-48 sm:h-52 flex-shrink-0">
         <img 
           src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : images[currentImageIndex]} 
           alt={product.name} 
@@ -47,15 +47,15 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
           <>
             <button
               onClick={prevImage}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <FaChevronLeft size={12} />
+              <FaChevronLeft size={10} className="sm:w-3 sm:h-3" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              <FaChevronRight size={12} />
+              <FaChevronRight size={10} className="sm:w-3 sm:h-3" />
             </button>
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {images.map((_, index) => (
@@ -70,18 +70,18 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
           </>
         )}
         
-        <div className="absolute top-3 left-3 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+        <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
           {product.category}
         </div>
         {images.length > 1 && (
-          <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs">
+          <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs">
             +{images.length - 1}
           </div>
         )}
       </div>
       
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-lg font-bold text-gray-800 mb-2 leading-tight">{product.name}</h3>
+      <div className="p-3 sm:p-4 flex flex-col flex-1">
+        <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 leading-tight">{product.name}</h3>
         
         {product.description && (
           <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
@@ -107,8 +107,8 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete }) => {
         )}
         
         <div className="mt-auto">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xl font-bold text-green-600">{product.price}</span>
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <span className="text-lg sm:text-xl font-bold text-green-600">{product.price}</span>
           </div>
         
           {showActions ? (

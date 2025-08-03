@@ -5,7 +5,6 @@ import Shop from './Shop';
 import Combos from './Combos';
 import WhyChooseUs from './WhyChooseUs';
 import Testimonies from './Testimonies';
-import HowToOrder from './HowToOrder';
 import Contact from './Contact';
 import Footer from './Footer';
 
@@ -18,7 +17,6 @@ const MainWebsite = () => {
       <Combos />
       <WhyChooseUs />
       <Testimonies />
-      <HowToOrder />
       <Contact />
       <Footer />
     </div>
