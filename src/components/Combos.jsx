@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaWhatsapp, FaStar } from 'react-icons/fa';
+import ComboCard from './ui/ComboCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
 
@@ -113,9 +113,9 @@ const Combos = () => {
     <section id="combos" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Best Value Combos</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Featured Combos</h2>
           <div className="w-16 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Save more with our carefully curated combo packages</p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Handpicked combo deals offering maximum value and savings</p>
         </div>
         
         {loading ? (
@@ -125,43 +125,28 @@ const Combos = () => {
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {combos.map(combo => (
-            <div key={combo._id || combo.id} className="relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border hover:-translate-y-1">
-              {combo.popular && (
-                <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1 z-10">
-                  <FaStar size={12} />
-                  <span>Popular</span>
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {combos.slice(0, 3).map((combo, index) => (
+                <div 
+                  key={combo._id || combo.id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <ComboCard combo={combo} />
                 </div>
-              )}
-              
-              <div className="relative overflow-hidden">
-                <img src={combo.image} alt={combo.name} className="w-full h-48 object-cover" />
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                  Save {combo.savings}
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{combo.name}</h3>
-                <p className="text-gray-600 mb-4">{combo.description || combo.items}</p>
-                
-                <div className="mb-4">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-lg text-gray-500 line-through">{combo.originalPrice}</span>
-                    <span className="text-2xl font-bold text-green-600">{combo.comboPrice}</span>
-                  </div>
-                  <p className="text-sm text-green-600 font-semibold">You save {combo.savings}!</p>
-                </div>
-                
-                <a href={`https://wa.me/2347069257877?text=Hi, I'm interested in the ${combo.name} combo for ${combo.comboPrice}`} className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all">
-                  <FaWhatsapp size={18} />
-                  <span>Order Combo</span>
-                </a>
-              </div>
+              ))}
             </div>
-            ))}
-          </div>
+            
+            <div className="text-center mt-12">
+              <a href="/combos" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <span>View All Combos</span>
+                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </>
         )}
       </div>
     </section>

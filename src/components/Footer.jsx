@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
+import Logo from './ui/Logo';
 
 const Footer = () => {
   return (
@@ -7,11 +8,9 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MU</span>
-              </div>
-              <h3 className="text-2xl font-bold text-green-400">Moderate Ustaz Wears</h3>
+            <div className="mb-4">
+              <Logo size="md" showDetails={false} />
+              <h3 className="text-xl font-bold text-green-400 mt-2">Moderate's Textile</h3>
             </div>
             <p className="text-gray-300 leading-relaxed">
               Premium quality traditional and urban wear at affordable prices. Your trusted clothing partner.
@@ -46,7 +45,7 @@ const Footer = () => {
         
         <div className="border-t border-gray-700 pt-8 text-center">
           <p className="text-gray-500 text-sm">
-            © 2025 Moderate Ustaz Wears. All rights reserved.
+            © 2025 Moderate's Textile. All rights reserved.
           </p>
         </div>
       </div>
