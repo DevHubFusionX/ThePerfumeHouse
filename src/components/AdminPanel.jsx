@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaHome, FaBoxes } from 'react-icons/fa';
+import { FaHome, FaBoxes, FaSave, FaTimes, FaEdit } from 'react-icons/fa';
 import AdminHeader from './admin/AdminHeader';
 import AdminSidebar from './admin/AdminSidebar';
 import ProductForm from './admin/ProductForm';
@@ -336,7 +336,43 @@ const AdminPanel = ({ onLogout }) => {
               </div>
               <h2 className="text-2xl font-bold text-gray-800">Add New Combo</h2>
             </div>
-            <form className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setLoading(true);
+              try {
+                const formDataToSend = new FormData();
+                formDataToSend.append('name', comboFormData.name);
+                formDataToSend.append('description', comboFormData.description);
+                formDataToSend.append('products', JSON.stringify(comboFormData.products));
+                formDataToSend.append('originalPrice', comboFormData.originalPrice);
+                formDataToSend.append('comboPrice', comboFormData.comboPrice);
+                formDataToSend.append('savings', comboFormData.savings);
+                formDataToSend.append('popular', comboFormData.popular);
+                if (comboFormData.image) {
+                  formDataToSend.append('image', comboFormData.image);
+                }
+                
+                const response = await fetch('https://moderates-textile-backend.onrender.com/api/admin/combos', {
+                  method: 'POST',
+                  headers: getAuthHeaders(),
+                  body: formDataToSend
+                });
+                
+                if (response.status === 401) {
+                  onLogout();
+                  return;
+                }
+                
+                cache.clear('combos');
+                fetchCombos();
+                setComboFormData({ name: '', description: '', products: [], originalPrice: '', comboPrice: '', savings: '', image: null, popular: false });
+                setShowAddForm(false);
+              } catch (error) {
+                console.error('Error saving combo:', error);
+              } finally {
+                setLoading(false);
+              }
+            }} className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">Combo Name</label>
                 <input
@@ -439,10 +475,11 @@ const AdminPanel = ({ onLogout }) => {
               <div className="flex space-x-4 md:col-span-2 pt-4">
                 <button 
                   type="submit" 
-                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                  disabled={loading}
+                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:bg-gray-400 text-white px-8 py-3 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  <FaSave /> 
-                  <span>Save Combo</span>
+                  <FaSave className={loading ? 'animate-spin' : ''} /> 
+                  <span>{loading ? 'Saving...' : 'Save Combo'}</span>
                 </button>
                 <button 
                   type="button" 
