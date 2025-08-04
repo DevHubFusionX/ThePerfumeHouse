@@ -19,7 +19,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/admin/verify', {
+      const response = await fetch('https://moderate-textile.onrender.com/api/admin/verify', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

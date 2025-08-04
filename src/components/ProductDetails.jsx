@@ -18,7 +18,7 @@ const ProductDetails = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`https://moderates-textile-backend.onrender.com/api/products/${id}`);
+      const response = await fetch(`https://moderate-textile.onrender.com/api/products/${id}`);
       const data = await response.json();
       setProduct(data);
       if (data.colors?.length > 0) {

@@ -28,7 +28,7 @@ const AllCombos = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/combos');
+      const response = await fetch('https://moderate-textile.onrender.com/api/combos');
       const data = await response.json();
       setCombos(data);
       setFilteredCombos(data);

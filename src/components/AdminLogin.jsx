@@ -23,7 +23,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await fetch('https://moderates-textile-backend.onrender.com/api/admin/login', {
+      const response = await fetch('https://moderate-textile.onrender.com/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

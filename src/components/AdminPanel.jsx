@@ -38,7 +38,7 @@ const AdminPanel = ({ onLogout }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://moderates-textile-backend.onrender.com/api/products');
+      const response = await fetch('https://moderate-textile.onrender.com/api/products');
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -48,7 +48,7 @@ const AdminPanel = ({ onLogout }) => {
 
   const fetchCombos = async () => {
     try {
-      const response = await fetch('https://moderates-textile-backend.onrender.com/api/combos');
+      const response = await fetch('https://moderate-textile.onrender.com/api/combos');
       const data = await response.json();
       setCombos(data);
     } catch (error) {
@@ -61,8 +61,8 @@ const AdminPanel = ({ onLogout }) => {
 
     try {
       const url = editingId 
-        ? `https://moderates-textile-backend.onrender.com/api/admin/products/${editingId}`
-        : 'https://moderates-textile-backend.onrender.com/api/admin/products';
+        ? `https://moderate-textile.onrender.com/api/admin/products/${editingId}`
+        : 'https://moderate-textile.onrender.com/api/admin/products';
       const method = editingId ? 'PUT' : 'POST';
       
       const response = await fetch(url, { 
@@ -109,7 +109,7 @@ const AdminPanel = ({ onLogout }) => {
     if (confirm('Delete this product?')) {
       setDeletingId(id);
       try {
-        const response = await fetch(`https://moderates-textile-backend.onrender.com/api/admin/products/${id}`, { 
+        const response = await fetch(`https://moderate-textile.onrender.com/api/admin/products/${id}`, { 
           method: 'DELETE',
           headers: getAuthHeaders()
         });
@@ -198,7 +198,7 @@ const AdminPanel = ({ onLogout }) => {
               e.preventDefault();
               setEmailLoading(true);
               try {
-                const response = await fetch('https://moderates-textile-backend.onrender.com/api/admin/change-email', {
+                const response = await fetch('https://moderate-textile.onrender.com/api/admin/change-email', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                   body: JSON.stringify({ currentPassword: emailData.currentPassword, newEmail: emailData.newEmail })
@@ -266,7 +266,7 @@ const AdminPanel = ({ onLogout }) => {
               }
               setPasswordLoading(true);
               try {
-                const response = await fetch('https://moderates-textile-backend.onrender.com/api/admin/change-password', {
+                const response = await fetch('https://moderate-textile.onrender.com/api/admin/change-password', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                   body: JSON.stringify({ currentPassword: passwordData.currentPassword, newPassword: passwordData.newPassword })
@@ -352,7 +352,7 @@ const AdminPanel = ({ onLogout }) => {
                   formDataToSend.append('image', comboFormData.image);
                 }
                 
-                const response = await fetch('https://moderates-textile-backend.onrender.com/api/admin/combos', {
+                const response = await fetch('https://moderate-textile.onrender.com/api/admin/combos', {
                   method: 'POST',
                   headers: getAuthHeaders(),
                   body: formDataToSend
