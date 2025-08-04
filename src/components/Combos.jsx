@@ -22,14 +22,14 @@ const Combos = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/combos');
+      const response = await fetch('https://moderates-textile-backend.onrender.com/api/combos');
       const data = await response.json();
       setCombos(data);
       cache.set('combos', data);
     } catch (error) {
       console.error('Error fetching combos:', error);
       // Fallback to auto-generated combos
-      const productsResponse = await fetch('https://moderate-ustaz-backend.onrender.com/api/products');
+      const productsResponse = await fetch('https://moderates-textile-backend.onrender.com/api/products');
       const productsData = await productsResponse.json();
       setProducts(productsData);
       generateCombos(productsData);

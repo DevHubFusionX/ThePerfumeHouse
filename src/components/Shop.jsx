@@ -21,7 +21,7 @@ const Shop = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-ustaz-backend.onrender.com/api/products');
+      const response = await fetch('https://moderates-textile-backend.onrender.com/api/products');
       const data = await response.json();
       setProducts(data);
       cache.set('products', data);
