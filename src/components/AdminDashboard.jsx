@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminPanel from './AdminPanel';
+import { API_ENDPOINTS } from '../utils/api';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,7 +20,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/admin/verify', {
+      const response = await fetch(API_ENDPOINTS.admin.verify, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

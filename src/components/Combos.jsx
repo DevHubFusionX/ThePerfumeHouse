@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ComboCard from './ui/ComboCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
+import { API_ENDPOINTS, apiRequest } from '../utils/api';
 
 const Combos = () => {
   const [products, setProducts] = useState([]);
@@ -22,15 +23,13 @@ const Combos = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/combos');
-      const data = await response.json();
+      const data = await apiRequest(API_ENDPOINTS.combos);
       setCombos(data);
       cache.set('combos', data);
     } catch (error) {
       console.error('Error fetching combos:', error);
       // Fallback to auto-generated combos
-      const productsResponse = await fetch('https://moderate-textile.onrender.com/api/products');
-      const productsData = await productsResponse.json();
+      const productsData = await apiRequest(API_ENDPOINTS.products);
       setProducts(productsData);
       generateCombos(productsData);
     } finally {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
+import { API_ENDPOINTS, apiRequest } from '../utils/api';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -21,8 +22,7 @@ const Shop = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/products');
-      const data = await response.json();
+      const data = await apiRequest(API_ENDPOINTS.products);
       setProducts(data);
       cache.set('products', data);
     } catch (error) {

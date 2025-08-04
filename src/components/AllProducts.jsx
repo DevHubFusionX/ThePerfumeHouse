@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
+import { API_ENDPOINTS, apiRequest } from '../utils/api';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -31,13 +32,19 @@ const AllProducts = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/products');
-      const data = await response.json();
-      setProducts(data);
-      setFilteredProducts(data);
-      cache.set('products', data);
+      const data = await apiRequest(API_ENDPOINTS.products);
+      if (Array.isArray(data)) {
+        setProducts(data);
+        setFilteredProducts(data);
+        cache.set('products', data);
+      } else {
+        setProducts([]);
+        setFilteredProducts([]);
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
+      setFilteredProducts([]);
     } finally {
       setLoading(false);
     }

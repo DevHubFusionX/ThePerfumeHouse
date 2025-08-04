@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { API_ENDPOINTS } from '../utils/api';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/admin/login', {
+      const response = await fetch(API_ENDPOINTS.admin.login, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ComboCard from './ui/ComboCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
+import { API_ENDPOINTS, apiRequest } from '../utils/api';
 
 const AllCombos = () => {
   const [combos, setCombos] = useState([]);
@@ -28,13 +29,19 @@ const AllCombos = () => {
     }
 
     try {
-      const response = await fetch('https://moderate-textile.onrender.com/api/combos');
-      const data = await response.json();
-      setCombos(data);
-      setFilteredCombos(data);
-      cache.set('combos', data);
+      const data = await apiRequest(API_ENDPOINTS.combos);
+      if (Array.isArray(data)) {
+        setCombos(data);
+        setFilteredCombos(data);
+        cache.set('combos', data);
+      } else {
+        setCombos([]);
+        setFilteredCombos([]);
+      }
     } catch (error) {
       console.error('Error fetching combos:', error);
+      setCombos([]);
+      setFilteredCombos([]);
     } finally {
       setLoading(false);
     }

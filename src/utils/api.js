@@ -13,4 +13,12 @@ export const API_ENDPOINTS = {
   }
 };
 
+export const apiRequest = async (url, options = {}) => {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+};
+
 export default API_BASE_URL;
