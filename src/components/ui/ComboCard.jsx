@@ -22,10 +22,16 @@ const ComboCard = ({ combo, showActions = false, onEdit, onDelete }) => {
     >
       <div className="relative overflow-hidden h-56 flex-shrink-0">
         <img 
-          src={combo.image || 'https://via.placeholder.com/400x400?text=No+Image'} 
+          src={combo.images?.[0] || combo.image || 'https://via.placeholder.com/400x400?text=No+Image'} 
           alt={combo.name} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
+        
+        {combo.images && combo.images.length > 1 && (
+          <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs font-medium">
+            +{combo.images.length - 1} more
+          </div>
+        )}
         
         {combo.popular && (
           <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">

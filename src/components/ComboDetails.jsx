@@ -11,6 +11,20 @@ const ComboDetails = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const images = combo?.images || (combo?.image ? [combo.image] : []);
+  
+  const nextImage = () => {
+    if (images.length > 0) {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }
+  };
+  
+  const prevImage = () => {
+    if (images.length > 0) {
+      setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    }
+  };
+
   useEffect(() => {
     fetchCombo();
   }, [id]);
@@ -79,10 +93,40 @@ const ComboDetails = () => {
             <div className="relative bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
               <div className="relative aspect-square bg-gray-50 rounded-lg sm:rounded-xl overflow-hidden">
                 <img 
-                  src={combo.image || 'https://via.placeholder.com/600x600?text=No+Image'} 
+                  src={images[currentImageIndex] || 'https://via.placeholder.com/600x600?text=No+Image'} 
                   alt={combo.name}
                   className="w-full h-full object-cover"
                 />
+                
+                {images.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
+                    >
+                      <FaChevronLeft size={16} />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-all"
+                    >
+                      <FaChevronRight size={16} />
+                    </button>
+                    
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                      {images.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            index === currentImageIndex ? 'bg-white' : 'bg-white bg-opacity-50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+                
                 {combo.popular && (
                   <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center space-x-1">
                     <FaStar size={12} />
@@ -91,6 +135,26 @@ const ComboDetails = () => {
                 )}
               </div>
             </div>
+            
+            {images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {images.slice(0, 4).map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`aspect-square bg-white rounded-lg p-1 shadow-sm transition-all ${
+                      index === currentImageIndex ? 'ring-2 ring-green-500' : 'hover:shadow-md'
+                    }`}
+                  >
+                    <img 
+                      src={image} 
+                      alt={`${combo.name} ${index + 1}`}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Combo Info */}
