@@ -41,13 +41,13 @@ const ComboCard = ({
           <>
             <button
               onClick={prevImage}
-              className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
             >
               <FaChevronLeft size={10} className="sm:w-3 sm:h-3" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
             >
               <FaChevronRight size={10} className="sm:w-3 sm:h-3" />
             </button>
