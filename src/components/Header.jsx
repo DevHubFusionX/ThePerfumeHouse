@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaWhatsapp, FaTwitter, FaBars, FaTimes } from 'react-icons/fa';
+import { FaWhatsapp, FaBars, FaTimes } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import Logo from './ui/Logo';
 
@@ -52,9 +53,9 @@ const Header = () => {
                   <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
                   <FaWhatsapp size={18} className="relative z-10" />
                 </a>
-                <a href="https://x.com/moderate_ustaz" className="relative p-2 text-blue-500 hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-blue-500 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaTwitter size={18} className="relative z-10" />
+                <a href="https://x.com/moderate_ustaz" className="relative p-2 text-black hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-black rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaXTwitter size={18} className="relative z-10" />
                 </a>
               </div>
               
@@ -107,9 +108,9 @@ const Header = () => {
                   <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
                   <FaWhatsapp size={20} className="relative z-10" />
                 </a>
-                <a href="https://x.com/moderate_ustaz" className="relative p-3 bg-blue-50 text-blue-500 hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-blue-500 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaTwitter size={20} className="relative z-10" />
+                <a href="https://x.com/moderate_ustaz" className="relative p-3 bg-gray-50 text-black hover:text-white transition-all duration-300 rounded-full group">
+                  <div className="absolute inset-0 bg-black rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
+                  <FaXTwitter size={20} className="relative z-10" />
                 </a>
               </div>
             </nav>

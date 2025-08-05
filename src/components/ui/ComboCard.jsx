@@ -1,10 +1,25 @@
 import React from 'react';
 import { FaWhatsapp, FaStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
 const ComboCard = ({ combo, showActions = false, onEdit, onDelete }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (!showActions) {
+      const comboId = combo._id || combo.id;
+      console.log('Navigating to combo:', comboId, combo);
+      navigate(`/combo/${comboId}`);
+    }
+  };
   return (
-    <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 h-[480px] flex flex-col">
+    <div 
+      className={`group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 h-[480px] flex flex-col ${
+        !showActions ? 'cursor-pointer' : ''
+      }`}
+      onClick={handleCardClick}
+    >
       <div className="relative overflow-hidden h-56 flex-shrink-0">
         <img 
           src={combo.image || 'https://via.placeholder.com/400x400?text=No+Image'} 
@@ -72,7 +87,10 @@ const ComboCard = ({ combo, showActions = false, onEdit, onDelete }) => {
               className="w-full"
               size="sm"
               icon={<FaWhatsapp size={16} />}
-              onClick={() => window.open(`https://wa.me/2347069257877?text=Hi, I'm interested in the ${combo.name} combo for ${combo.comboPrice}`, '_blank')}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(`https://wa.me/2347069257877?text=Hi, I'm interested in the ${combo.name} combo for ${combo.comboPrice}`, '_blank');
+              }}
             >
               Order Combo
             </Button>

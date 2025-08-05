@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { FaArrowLeft, FaSearch, FaFilter, FaTh, FaList } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ui/ProductCard';
@@ -6,9 +6,9 @@ import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
 import { API_ENDPOINTS, apiRequest } from '../utils/api';
 
-const AllProducts = () => {
+const AllProducts = React.memo(() => {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -26,7 +26,6 @@ const AllProducts = () => {
     const cachedProducts = cache.get('products');
     if (cachedProducts) {
       setProducts(cachedProducts);
-      setFilteredProducts(cachedProducts);
       setLoading(false);
       return;
     }
@@ -35,22 +34,19 @@ const AllProducts = () => {
       const data = await apiRequest(API_ENDPOINTS.products);
       if (Array.isArray(data)) {
         setProducts(data);
-        setFilteredProducts(data);
         cache.set('products', data);
       } else {
         setProducts([]);
-        setFilteredProducts([]);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
       setProducts([]);
-      setFilteredProducts([]);
     } finally {
       setLoading(false);
     }
   };
   
-  useEffect(() => {
+  const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -58,7 +54,7 @@ const AllProducts = () => {
       return matchesSearch && matchesCategory;
     });
     
-    filtered.sort((a, b) => {
+    return filtered.sort((a, b) => {
       switch (sortBy) {
         case 'price-low':
           return parseInt(a.price.replace(/[^0-9]/g, '')) - parseInt(b.price.replace(/[^0-9]/g, ''));
@@ -70,9 +66,19 @@ const AllProducts = () => {
           return new Date(b.createdAt) - new Date(a.createdAt);
       }
     });
-    
-    setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory, sortBy]);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleCategoryChange = useCallback((e) => {
+    setSelectedCategory(e.target.value);
+  }, []);
+
+  const handleSortChange = useCallback((e) => {
+    setSortBy(e.target.value);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -115,14 +121,14 @@ const AllProducts = () => {
                 type="text"
                 placeholder="Search products..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
                 className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
               />
             </div>
             
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
             >
               {categories.map(category => (
@@ -132,7 +138,7 @@ const AllProducts = () => {
             
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={handleSortChange}
               className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
             >
               <option value="newest">Newest First</option>
@@ -233,6 +239,7 @@ const AllProducts = () => {
       </div>
     </div>
   );
-};
+});
 
+AllProducts.displayName = 'AllProducts';
 export default AllProducts;

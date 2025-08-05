@@ -5,7 +5,7 @@ const Testimonies = () => {
   const testimonies = [
     {
       id: 1,
-      name: "Ahmad Ibrahim",
+      name: "Adebayo Olumide",
       location: "Lagos",
       rating: 5,
       text: "Excellent quality fabrics at affordable prices. The traditional wear I ordered exceeded my expectations. Fast delivery too!",
@@ -33,6 +33,14 @@ const Testimonies = () => {
       location: "Kaduna",
       rating: 5,
       text: "Beautiful designs and excellent fabric quality. My husband loves his new traditional outfits from Moderate's Textile.",
+      image: "/api/placeholder/60/60"
+    },
+    {
+      id: 5,
+      name: "Folake Adebayo",
+      location: "Lagos",
+      rating: 5,
+      text: "Outstanding service and premium quality fabrics! The delivery was prompt and the packaging was excellent. Highly recommended!",
       image: "/api/placeholder/60/60"
     }
   ];

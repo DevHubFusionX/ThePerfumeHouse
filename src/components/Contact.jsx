@@ -57,9 +57,19 @@ const Contact = () => {
                     <FaMapMarkerAlt className="text-red-600 text-xl" />
                   </div>
                   <div>
+                    <p className="font-semibold text-gray-800">Shop Address</p>
+                    <p className="text-gray-600">Shop No A50 Gidan Baba Beside Unity Bank, IBB Way Kantin Kwari Market</p>
+                    <p className="text-sm text-gray-500">Kano, Nigeria</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaBuilding className="text-orange-600 text-xl" />
+                  </div>
+                  <div>
                     <p className="font-semibold text-gray-800">Service Coverage</p>
-                    <p className="text-gray-600">All 36 States + FCT</p>
-                    <p className="text-sm text-gray-500">Nationwide delivery available</p>
+                    <p className="text-gray-600">Nigeria (All 36 States + FCT) & Ghana</p>
+                    <p className="text-sm text-gray-500">International delivery available</p>
                   </div>
                 </div>
               </div>
@@ -96,7 +106,7 @@ const Contact = () => {
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="font-medium text-gray-700">Sunday</span>
-                  <span className="text-red-600 font-medium">Closed</span>
+                  <span className="text-gray-600">9:00 AM - 4:00 PM</span>
                 </div>
               </div>
             </div>

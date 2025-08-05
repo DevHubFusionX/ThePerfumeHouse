@@ -3,7 +3,7 @@ import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-const ProductCard = ({ product, showActions = false, onEdit, onDelete, isDeleting = false }) => {
+const ProductCard = React.memo(({ product, showActions = false, onEdit, onDelete, isDeleting = false }) => {
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
@@ -16,19 +16,11 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete, isDeletin
     : ['https://via.placeholder.com/400x400?text=No+Image'];
 
   const nextImage = () => {
-    setImageLoading(true);
-    setTimeout(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-      setImageLoading(false);
-    }, 200);
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
 
   const prevImage = () => {
-    setImageLoading(true);
-    setTimeout(() => {
-      setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-      setImageLoading(false);
-    }, 200);
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const handleCardClick = () => {
@@ -49,14 +41,10 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete, isDeletin
           src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : images[currentImageIndex]} 
           alt={product.name} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
           onError={() => setImageError(true)}
         />
         
-        {imageLoading && (
-          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
         
         {images.length > 1 && (
           <>
@@ -165,6 +153,7 @@ const ProductCard = ({ product, showActions = false, onEdit, onDelete, isDeletin
       </div>
     </div>
   );
-};
+});
 
+ProductCard.displayName = 'ProductCard';
 export default ProductCard;

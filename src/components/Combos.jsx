@@ -124,15 +124,15 @@ const Combos = () => {
         </div>
         
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[...Array(3)].map((_, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {[...Array(4)].map((_, index) => (
               <ProductSkeleton key={index} />
             ))}
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {combos.slice(0, 3).map((combo, index) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {combos.slice(0, 4).map((combo, index) => (
                 <div 
                   key={combo._id || combo.id}
                   className="animate-fade-in-up"

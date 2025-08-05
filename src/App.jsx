@@ -6,6 +6,7 @@ import MainWebsite from './components/MainWebsite';
 import AllProducts from './components/AllProducts';
 import AllCombos from './components/AllCombos';
 import ProductDetails from './components/ProductDetails';
+import ComboDetails from './components/ComboDetails';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/products" element={<AllProducts />} />
         <Route path="/combos" element={<AllCombos />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/combo/:id" element={<ComboDetails />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>

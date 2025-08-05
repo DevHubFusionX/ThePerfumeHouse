@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import Logo from './ui/Logo';
 
 const Footer = () => {
@@ -30,11 +31,14 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
             <div className="flex space-x-4 mb-4">
-              <a href="https://wa.me/your-number" className="bg-green-600 hover:bg-green-700 p-3 rounded-full transition-colors">
+              <a href="https://wa.me/2347069257877" className="bg-green-600 hover:bg-green-700 p-3 rounded-full transition-colors">
                 <FaWhatsapp size={20} />
               </a>
-              <a href="https://instagram.com/moderate_ustaz" className="bg-pink-500 hover:bg-pink-600 p-3 rounded-full transition-colors">
+              <a href="https://www.instagram.com/moderates_textile?utm_source=qr&igsh=MThkNGF0bnJvbGE0Mg==" className="bg-pink-500 hover:bg-pink-600 p-3 rounded-full transition-colors">
                 <FaInstagram size={20} />
+              </a>
+              <a href="https://x.com/moderate_ustaz" className="bg-black hover:bg-gray-800 p-3 rounded-full transition-colors">
+                <FaXTwitter size={20} />
               </a>
             </div>
             <p className="text-gray-300 text-sm">

@@ -1,4 +1,4 @@
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 export const cache = {
   get: (key) => {
@@ -20,6 +20,16 @@ export const cache = {
       timestamp: Date.now()
     };
     localStorage.setItem(key, JSON.stringify(item));
+    
+    // Preload first few product images for faster display
+    if (key === 'products' && Array.isArray(data)) {
+      data.slice(0, 6).forEach(product => {
+        if (product.images?.[0]) {
+          const img = new Image();
+          img.src = product.images[0];
+        }
+      });
+    }
   },
   
   clear: (key) => {
