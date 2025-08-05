@@ -293,28 +293,34 @@ const AdminPanel = ({ onLogout }) => {
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Navigation Tabs */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
+            <nav className="-mb-px flex">
               <button
                 onClick={() => setActiveTab('products')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`flex-1 sm:flex-none py-3 px-4 sm:px-6 border-b-2 font-medium text-sm transition-colors text-center ${
                   activeTab === 'products'
-                    ? 'border-green-500 text-green-600'
+                    ? 'border-green-500 text-green-600 bg-green-50'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
                 <FaHome className="inline mr-2" />Products
+                <span className="ml-1 text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+                  {products.length}
+                </span>
               </button>
               <button
                 onClick={() => setActiveTab('combos')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`flex-1 sm:flex-none py-3 px-4 sm:px-6 border-b-2 font-medium text-sm transition-colors text-center ${
                   activeTab === 'combos'
-                    ? 'border-green-500 text-green-600'
+                    ? 'border-green-500 text-green-600 bg-green-50'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
                 <FaBoxes className="inline mr-2" />Combos
+                <span className="ml-1 text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+                  {combos.length}
+                </span>
               </button>
             </nav>
           </div>
@@ -390,11 +396,11 @@ const AdminPanel = ({ onLogout }) => {
 
         {showAddForm && activeTab === 'combos' && (
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4"
             onClick={resetComboForm}
           >
             <div 
-              className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl transform transition-all duration-500 ease-out animate-slide-up"
+              className="w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl transform transition-all duration-500 ease-out animate-slide-up"
               onClick={(e) => e.stopPropagation()}
             >
               <ComboForm

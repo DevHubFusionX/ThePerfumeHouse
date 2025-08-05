@@ -69,3 +69,58 @@
   scrollbar-width: thin;
   scrollbar-color: #10b981 #f1f5f9;
 }
+
+/* Mobile Admin Panel Enhancements */
+@media (max-width: 768px) {
+  /* Better touch targets */
+  .admin-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improved form inputs on mobile */
+  .admin-form input,
+  .admin-form textarea,
+  .admin-form select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Better modal animations on mobile */
+  .mobile-modal {
+    animation: slide-up-mobile 0.3s ease-out;
+  }
+  
+  /* Sticky form buttons */
+  .sticky-form-actions {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem;
+    margin: 0 -1rem -1rem -1rem;
+  }
+}
+
+@keyframes slide-up-mobile {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Improved scrolling for mobile */
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Better checkbox and radio styling for mobile */
+@media (max-width: 768px) {
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 18px;
+    height: 18px;
+  }
+}
