@@ -9,6 +9,7 @@ import ProductDetails from './components/ProductDetails';
 import ComboDetails from './components/ComboDetails';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
+import './utils/keepServerAlive';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
