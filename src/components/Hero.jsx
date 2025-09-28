@@ -71,7 +71,7 @@ const Hero = () => {
           </div>
           
           {/* Featured Collections */}
-          <div className="grid md:grid-cols-3 gap-8 mt-20">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
             <div 
               className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition"
               onClick={() => navigate('/collections/men')}
@@ -79,7 +79,7 @@ const Hero = () => {
               <div className="w-20 h-20 gradient-charcoal rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
                 <span className="text-beige-light font-bold text-2xl">♂</span>
               </div>
-              <h3 className="text-2xl font-bold text-charcoal mb-3">Masculine Collection</h3>
+              <h3 className="text-2xl font-bold text-charcoal mb-3">Men's Collection</h3>
               <p className="text-charcoal-light mb-6 leading-relaxed">
                 Sophisticated and commanding fragrances that embody strength, confidence, and timeless elegance for the discerning gentleman.
               </p>
@@ -93,7 +93,7 @@ const Hero = () => {
               <div className="w-20 h-20 gradient-gold rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
                 <span className="text-charcoal font-bold text-2xl">♀</span>
               </div>
-              <h3 className="text-2xl font-bold text-charcoal mb-3">Feminine Collection</h3>
+              <h3 className="text-2xl font-bold text-charcoal mb-3">Women's Collection</h3>
               <p className="text-charcoal-light mb-6 leading-relaxed">
                 Enchanting and graceful scents that celebrate femininity, from delicate florals to bold, captivating compositions.
               </p>
@@ -102,14 +102,14 @@ const Hero = () => {
             
             <div 
               className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition"
-              onClick={() => navigate('/collections/combos')}
+              onClick={() => navigate('/collections/unisex')}
             >
               <div className="w-20 h-20 gradient-silver rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
-                <span className="text-charcoal font-bold text-2xl">🎁</span>
+                <span className="text-charcoal font-bold text-2xl">⚤</span>
               </div>
-              <h3 className="text-2xl font-bold text-charcoal mb-3">Luxury Gift Sets</h3>
+              <h3 className="text-2xl font-bold text-charcoal mb-3">Unisex Collection</h3>
               <p className="text-charcoal-light mb-6 leading-relaxed">
-                Thoughtfully curated collections presented in elegant packaging, perfect for celebrating life's most precious moments.
+                Versatile and captivating scents designed for everyone, transcending traditional boundaries with universal appeal.
               </p>
               <span className="text-gold font-semibold group-hover:underline elegant-transition">Discover Collection →</span>
             </div>

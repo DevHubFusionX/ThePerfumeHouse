@@ -71,10 +71,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <Link to="/combos" className="text-charcoal hover:text-gold font-medium elegant-transition relative group">
-                Gift Sets
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
-              </Link>
+
               <Link to="/about" className="text-charcoal hover:text-gold font-medium elegant-transition relative group">
                 About
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
@@ -154,7 +151,7 @@ const Header = () => {
                   <Link to="/products" onClick={() => setMobileMenuOpen(false)} className="block px-3 sm:px-4 py-2 sm:py-3 text-charcoal-light hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition text-xs sm:text-sm">All Perfumes</Link>
                 </div>
                 
-                <Link to="/combos" onClick={() => setMobileMenuOpen(false)} className="block px-3 sm:px-4 py-3 sm:py-4 text-charcoal hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition text-sm sm:text-base">Gift Sets</Link>
+
                 <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-3 sm:px-4 py-3 sm:py-4 text-charcoal hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition text-sm sm:text-base">About Us</Link>
               </nav>
             </div>
