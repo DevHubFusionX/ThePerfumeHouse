@@ -3,6 +3,7 @@ import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
 import { API_ENDPOINTS, apiRequest } from '../utils/api';
+import '../styles/theme.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -33,17 +34,16 @@ const Shop = () => {
   };
 
   return (
-    <section id="shop" className="py-20 bg-gray-50">
+    <section id="shop" className="py-24 bg-beige-light">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            🎆 Best Sellers
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center bg-gold/10 text-gold px-6 py-3 rounded-full text-sm font-semibold mb-6 elegant-border">
+            ✨ Bestsellers
           </div>
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Premium Collection</h2>
-          <div className="w-16 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Discover our most popular products trusted by thousands of customers. 
-            Each item is carefully selected for quality, durability, and style.
+          <h2 className="text-5xl font-bold text-charcoal mb-6">Signature Collection</h2>
+          <div className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"></div>
+          <p className="text-xl text-charcoal-light max-w-4xl mx-auto leading-relaxed">
+            Discover the fragrances that have captivated hearts and defined elegance. Each scent in our signature collection represents the pinnacle of olfactory artistry.
           </p>
         </div>
         
@@ -67,13 +67,15 @@ const Shop = () => {
               ))}
             </div>
             
-            <div className="text-center mt-16">
-              <div className="bg-gray-50 rounded-2xl p-8 max-w-2xl mx-auto">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">Explore Our Full Catalog</h3>
-                <p className="text-gray-600 mb-6">Browse through our complete collection of over 100+ premium textile products</p>
-                <a href="/products" className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
-                  <span>View All Products</span>
-                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center mt-20">
+              <div className="card-elegant p-10 max-w-3xl mx-auto">
+                <h3 className="text-3xl font-bold text-charcoal mb-6">See All Our Perfumes</h3>
+                <p className="text-charcoal-light mb-8 text-lg leading-relaxed">
+                  Browse our full collection of over 50 authentic designer perfumes from top brands around the world.
+                </p>
+                <a href="/products" className="btn-primary inline-flex items-center px-10 py-4 rounded-full elegant-shadow-lg hover:elegant-shadow-xl transform hover:scale-105">
+                  <span>View All Perfumes</span>
+                  <svg className="ml-3 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </a>

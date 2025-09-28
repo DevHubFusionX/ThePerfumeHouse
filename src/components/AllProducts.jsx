@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { FaArrowLeft, FaSearch, FaFilter, FaTh, FaList } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaSearch, FaTh, FaList, FaFilter, FaStar, FaHeart } from 'react-icons/fa';
+import { useNavigate, Link } from 'react-router-dom';
 import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
 import { API_ENDPOINTS, apiRequest } from '../utils/api';
+import '../styles/theme.css';
 
 const AllProducts = React.memo(() => {
   const [products, setProducts] = useState([]);
@@ -15,8 +16,17 @@ const AllProducts = React.memo(() => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
   const navigate = useNavigate();
-  
-  const categories = ['All', 'Traditional', 'Premium', 'Fabrics', 'Casual', 'Accessories'];
+
+  const categories = ['All', 'Men', 'Women', 'Unisex', 'Niche', 'Designer'];
+  const priceRanges = [
+    { label: 'All Prices', value: 'all' },
+    { label: 'Under ₦50,000', value: '0-50000' },
+    { label: '₦50,000 - ₦100,000', value: '50000-100000' },
+    { label: '₦100,000 - ₦200,000', value: '100000-200000' },
+    { label: 'Above ₦200,000', value: '200000+' }
+  ];
+  const [priceRange, setPriceRange] = useState('all');
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -45,17 +55,31 @@ const AllProducts = React.memo(() => {
       setLoading(false);
     }
   };
-  
+
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+
+      let matchesPrice = true;
+      if (priceRange !== 'all') {
+        const price = parseInt(product.price.replace(/[^0-9]/g, ''));
+        const [min, max] = priceRange.split('-').map(p => p.replace('+', ''));
+        if (priceRange.includes('+')) {
+          matchesPrice = price >= parseInt(min);
+        } else {
+          matchesPrice = price >= parseInt(min) && price <= parseInt(max);
+        }
+      }
+
+      return matchesSearch && matchesCategory && matchesPrice;
     });
-    
+
     return filtered.sort((a, b) => {
       switch (sortBy) {
+        case 'popular':
+          return (b.popular ? 1 : 0) - (a.popular ? 1 : 0);
         case 'price-low':
           return parseInt(a.price.replace(/[^0-9]/g, '')) - parseInt(b.price.replace(/[^0-9]/g, ''));
         case 'price-high':
@@ -66,7 +90,7 @@ const AllProducts = React.memo(() => {
           return new Date(b.createdAt) - new Date(a.createdAt);
       }
     });
-  }, [products, searchTerm, selectedCategory, sortBy]);
+  }, [products, searchTerm, selectedCategory, sortBy, priceRange]);
 
   const handleSearchChange = useCallback((e) => {
     setSearchTerm(e.target.value);
@@ -81,160 +105,250 @@ const AllProducts = React.memo(() => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-beige-light to-nude-light">
       <div className="pt-20">
-        <div className="bg-white shadow-sm border-b mb-6 sm:mb-8">
-          <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Our Collection</h1>
-                <p className="text-gray-600 text-sm sm:text-base">Discover premium textiles & quality wear</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'grid' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  <FaTh />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'list' ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  <FaList />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 pb-8">
-        <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div className="relative sm:col-span-2 lg:col-span-1">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
-              />
-            </div>
-            
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
-            >
-              {categories.map(category => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
-            
-            <select
-              value={sortBy}
-              onChange={handleSortChange}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
-            >
-              <option value="newest">Newest First</option>
-              <option value="name">Name A-Z</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-            </select>
-            
-            <div className="flex items-center justify-center bg-green-50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 sm:col-span-2 lg:col-span-1">
-              <span className="text-green-700 font-medium text-sm sm:text-base">
-                {filteredProducts.length} {filteredProducts.length === 1 ? 'Product' : 'Products'}
-              </span>
+        {/* Hero Header */}
+        <div className="gradient-charcoal text-beige-light mb-8">
+          <div className="container mx-auto px-6 py-16">
+            <div className="max-w-4xl mx-auto text-center">
+              <span className="text-gold font-medium tracking-wider text-sm uppercase mb-4 block">Our Collection</span>
+              <h1 className="text-5xl font-bold mb-6">Premium Perfumes</h1>
+              <div className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"></div>
+              <p className="text-xl text-beige leading-relaxed max-w-2xl mx-auto">
+                Browse our collection of authentic designer perfumes from top brands around the world.
+              </p>
             </div>
           </div>
         </div>
 
-        {loading ? (
-          <div className={`grid gap-4 sm:gap-6 ${
-            viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-              : 'grid-cols-1 max-w-4xl mx-auto'
-          }`}>
-            {[...Array(8)].map((_, index) => (
-              <ProductSkeleton key={index} />
-            ))}
+        {/* Quick Collection Links */}
+        <div className="container mx-auto px-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-6">
+            <Link to="/collections/men" className="card-elegant p-6 group hover:bg-gold/5 elegant-transition">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-charcoal rounded-xl flex items-center justify-center group-hover:scale-110 elegant-transition">
+                  <span className="text-gold font-bold">♂</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-charcoal">Men's Perfumes</h3>
+                  <p className="text-charcoal-light text-sm">For men</p>
+                </div>
+              </div>
+            </Link>
+            <Link to="/collections/women" className="card-elegant p-6 group hover:bg-gold/5 elegant-transition">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 gradient-nude rounded-xl flex items-center justify-center group-hover:scale-110 elegant-transition">
+                  <span className="text-charcoal font-bold">♀</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-charcoal">Women's Perfumes</h3>
+                  <p className="text-charcoal-light text-sm">For women</p>
+                </div>
+              </div>
+            </Link>
+            <Link to="/collections/unisex" className="card-elegant p-6 group hover:bg-gold/5 elegant-transition">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 gradient-silver rounded-xl flex items-center justify-center group-hover:scale-110 elegant-transition">
+                  <span className="text-charcoal font-bold">◊</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-charcoal">Unisex Perfumes</h3>
+                  <p className="text-charcoal-light text-sm">For everyone</p>
+                </div>
+              </div>
+            </Link>
           </div>
-        ) : (
-          <div className={`grid gap-4 sm:gap-6 ${
-            viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-              : 'grid-cols-1 max-w-4xl mx-auto'
-          }`}>
-            {filteredProducts.map((product, index) => (
-              <div 
-                key={product._id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                {viewMode === 'grid' ? (
-                  <ProductCard product={product} />
-                ) : (
-                  <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all p-4 sm:p-6 cursor-pointer"
-                       onClick={() => navigate(`/product/${product._id}`)}>
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                      <div className="w-full sm:w-32 h-48 sm:h-32 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
-                        <img 
-                          src={product.images?.[0] || product.image || 'https://via.placeholder.com/400x400?text=No+Image'} 
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
-                          <h3 className="text-lg sm:text-xl font-bold text-gray-800">{product.name}</h3>
-                          <span className="text-xl sm:text-2xl font-bold text-green-600">{product.price}</span>
+        </div>
+
+        <div className="container mx-auto px-6 pb-8">
+          {/* Filters & Controls */}
+          <div className="card-elegant p-8 mb-8">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                <div className="relative flex-1 max-w-md">
+                  <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-charcoal-light" />
+                  <input
+                    type="text"
+                    placeholder="Search perfumes..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="w-full pl-12 pr-4 py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal"
+                  />
+                </div>
+
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="btn-primary flex items-center space-x-2 px-6 py-4 lg:hidden"
+                >
+                  <FaFilter size={16} />
+                  <span>Filters</span>
+                </button>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-3 rounded-xl elegant-transition ${viewMode === 'grid' ? 'bg-gold text-charcoal' : 'text-charcoal-light hover:text-gold'
+                      }`}
+                  >
+                    <FaTh />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-3 rounded-xl elegant-transition ${viewMode === 'list' ? 'bg-gold text-charcoal' : 'text-charcoal-light hover:text-gold'
+                      }`}
+                  >
+                    <FaList />
+                  </button>
+                </div>
+
+                <div className="bg-gold/10 rounded-xl px-6 py-3">
+                  <span className="text-charcoal font-semibold">
+                    {filteredProducts.length} {filteredProducts.length === 1 ? 'Perfume' : 'Perfumes'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced Filters */}
+            <div className={`mt-6 pt-6 border-t border-beige-dark ${showFilters || window.innerWidth >= 1024 ? 'block' : 'hidden'}`}>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="relative">
+                  <select
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
+                  >
+                    {categories.map(category => (
+                      <option key={category} value={category} className="py-2">{category}</option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <select
+                    value={priceRange}
+                    onChange={(e) => setPriceRange(e.target.value)}
+                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
+                  >
+                    {priceRanges.map(range => (
+                      <option key={range.value} value={range.value} className="py-2">{range.label}</option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={handleSortChange}
+                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
+                  >
+                    <option value="popular" className="py-2">Most Popular</option>
+                    <option value="newest" className="py-2">Newest Arrivals</option>
+                    <option value="name" className="py-2">Alphabetical</option>
+                    <option value="price-low" className="py-2">Price: Low to High</option>
+                    <option value="price-high" className="py-2">Price: High to Low</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                : 'grid-cols-1 max-w-4xl mx-auto'
+              }`}>
+              {[...Array(8)].map((_, index) => (
+                <ProductSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                : 'grid-cols-1 max-w-4xl mx-auto'
+              }`}>
+              {filteredProducts.map((product, index) => (
+                <div
+                  key={product._id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  {viewMode === 'grid' ? (
+                    <ProductCard product={product} />
+                  ) : (
+                    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all p-4 sm:p-6 cursor-pointer"
+                      onClick={() => navigate(`/product/${product._id}`)}>
+                      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                        <div className="w-full sm:w-32 h-48 sm:h-32 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                          <img
+                            src={product.images?.[0] || product.image || 'https://via.placeholder.com/400x400?text=No+Image'}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                        <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-3">
-                          {product.category}
-                        </span>
-                        {product.description && (
-                          <p className="text-gray-600 line-clamp-2 mb-3">{product.description}</p>
-                        )}
-                        <div className="flex flex-wrap gap-2 sm:gap-4 text-sm text-gray-500">
-                          {product.fabricType && <span>• {product.fabricType}</span>}
-                          {product.quality && <span>• {product.quality}</span>}
+                        <div className="flex-1">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-800">{product.name}</h3>
+                            <span className="text-xl sm:text-2xl font-bold text-green-600">{product.price}</span>
+                          </div>
+                          <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-3">
+                            {product.category}
+                          </span>
+                          {product.description && (
+                            <p className="text-gray-600 line-clamp-2 mb-3">{product.description}</p>
+                          )}
+                          <div className="flex flex-wrap gap-2 sm:gap-4 text-sm text-gray-500">
+                            {product.fabricType && <span>• {product.fabricType}</span>}
+                            {product.quality && <span>• {product.quality}</span>}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {!loading && filteredProducts.length === 0 && (
-          <div className="text-center py-16">
-            <div className="max-w-md mx-auto">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaSearch className="text-gray-400 text-2xl" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">No products found</h3>
-              <p className="text-gray-600 mb-6">Try adjusting your search or filter criteria</p>
-              <button
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('All');
-                  setSortBy('newest');
-                }}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
-              >
-                Clear Filters
-              </button>
+                  )}
+                </div>
+              ))}
             </div>
-          </div>
-        )}
+          )}
+
+          {!loading && filteredProducts.length === 0 && (
+            <div className="text-center py-20">
+              <div className="max-w-md mx-auto">
+                <div className="w-24 h-24 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <FaSearch className="text-gold text-3xl" />
+                </div>
+                <h3 className="text-2xl font-bold text-charcoal mb-4">No perfumes found</h3>
+                <p className="text-charcoal-light mb-8 text-lg">Try changing your search or filters</p>
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedCategory('All');
+                    setPriceRange('all');
+                    setSortBy('popular');
+                  }}
+                  className="btn-gold px-8 py-4 rounded-xl font-semibold elegant-transition"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

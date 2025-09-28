@@ -1,0 +1,341 @@
+/* Essence Boutique - Minimalist Elegance Theme */
+
+:root {
+  /* Primary Colors - Minimalist Elegance */
+  --charcoal: #2d3748;
+  --charcoal-light: #4a5568;
+  --charcoal-dark: #1a202c;
+
+  --beige: #f7f5f3;
+  --beige-light: #faf9f7;
+  --beige-dark: #e2ddd9;
+
+  --nude: #e8d5c4;
+  --nude-light: #f0e6d6;
+  --nude-dark: #d4c0a8;
+
+  /* Metallic Accents */
+  --gold: #d4af37;
+  --gold-light: #e6c757;
+  --gold-dark: #b8941f;
+
+  --silver: #c0c0c0;
+  --silver-light: #d3d3d3;
+  --silver-dark: #a8a8a8;
+
+  /* Neutral Grays */
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-secondary: 'Playfair Display', serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--charcoal);
+  background-color: var(--beige-light);
+  line-height: 1.6;
+}
+
+/* Typography Classes */
+.text-charcoal {
+  color: var(--charcoal);
+}
+.text-charcoal-light {
+  color: var(--charcoal-light);
+}
+.text-charcoal-dark {
+  color: var(--charcoal-dark);
+}
+
+.text-beige {
+  color: var(--beige);
+}
+.text-beige-light {
+  color: var(--beige-light);
+}
+.text-beige-dark {
+  color: var(--beige-dark);
+}
+
+.text-nude {
+  color: var(--nude);
+}
+.text-nude-light {
+  color: var(--nude-light);
+}
+.text-nude-dark {
+  color: var(--nude-dark);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+.text-gold-light {
+  color: var(--gold-light);
+}
+.text-gold-dark {
+  color: var(--gold-dark);
+}
+
+.text-silver {
+  color: var(--silver);
+}
+.text-silver-light {
+  color: var(--silver-light);
+}
+.text-silver-dark {
+  color: var(--silver-dark);
+}
+
+/* Background Classes */
+.bg-charcoal {
+  background-color: var(--charcoal);
+}
+.bg-charcoal-light {
+  background-color: var(--charcoal-light);
+}
+.bg-charcoal-dark {
+  background-color: var(--charcoal-dark);
+}
+
+.bg-beige {
+  background-color: var(--beige);
+}
+.bg-beige-light {
+  background-color: var(--beige-light);
+}
+.bg-beige-dark {
+  background-color: var(--beige-dark);
+}
+
+.bg-nude {
+  background-color: var(--nude);
+}
+.bg-nude-light {
+  background-color: var(--nude-light);
+}
+.bg-nude-dark {
+  background-color: var(--nude-dark);
+}
+
+.bg-gold {
+  background-color: var(--gold);
+}
+.bg-gold-light {
+  background-color: var(--gold-light);
+}
+.bg-gold-dark {
+  background-color: var(--gold-dark);
+}
+
+.bg-silver {
+  background-color: var(--silver);
+}
+.bg-silver-light {
+  background-color: var(--silver-light);
+}
+.bg-silver-dark {
+  background-color: var(--silver-dark);
+}
+
+/* Gradient Classes */
+.gradient-gold {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+}
+
+.gradient-silver {
+  background: linear-gradient(135deg, var(--silver-light), var(--silver-dark));
+}
+
+.gradient-charcoal {
+  background: linear-gradient(135deg, var(--charcoal), var(--charcoal-dark));
+}
+
+.gradient-nude {
+  background: linear-gradient(135deg, var(--nude-light), var(--nude-dark));
+}
+
+/* Button Styles */
+.btn-primary {
+  background: var(--charcoal);
+  color: var(--beige-light);
+  border: none;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--charcoal-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--charcoal);
+  border: none;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-gold:disabled {
+  transform: none;
+  cursor: not-allowed;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold:disabled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Card Styles */
+.card-elegant {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--beige-dark);
+  transition: all 0.3s ease;
+}
+
+.card-elegant:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+/* Utility Classes */
+.elegant-border {
+  border: 1px solid var(--beige-dark);
+}
+
+.elegant-shadow {
+  box-shadow: var(--shadow-md);
+}
+
+.elegant-shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.elegant-shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+.elegant-transition {
+  transition: all 0.3s ease;
+}
+
+/* Animation Classes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  :root {
+    --space-xs: 0.125rem;
+    --space-sm: 0.25rem;
+    --space-md: 0.75rem;
+    --space-lg: 1rem;
+    --space-xl: 1.5rem;
+    --space-2xl: 2rem;
+  }
+}

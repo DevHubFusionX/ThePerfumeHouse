@@ -1,14 +1,24 @@
-import React from 'react';
-import { FaStar, FaQuoteLeft } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaStar, FaQuoteLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import '../styles/theme.css';
 
 const Testimonies = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % testimonies.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + testimonies.length) % testimonies.length);
+  };
   const testimonies = [
     {
       id: 1,
       name: "Adebayo Olumide",
       location: "Lagos",
       rating: 5,
-      text: "Excellent quality fabrics at affordable prices. The traditional wear I ordered exceeded my expectations. Fast delivery too!",
+      text: "theperfumehouse.ng helped me find the perfect perfume for my collection. Their knowledge about fragrances is amazing, and every bottle is high quality.",
       image: "/api/placeholder/60/60"
     },
     {
@@ -16,7 +26,7 @@ const Testimonies = () => {
       name: "Fatima Yusuf",
       location: "Abuja",
       rating: 5,
-      text: "Moderate's Textile has the best collection of modest wear. The customer service is outstanding and prices are very reasonable.",
+      text: "The personal advice changed how I think about perfumes. Their expert knowledge helped me find scents that really suit my personality.",
       image: "/api/placeholder/60/60"
     },
     {
@@ -24,7 +34,7 @@ const Testimonies = () => {
       name: "Musa Abdullahi",
       location: "Kano",
       rating: 5,
-      text: "I've been ordering from them for months. Quality is consistent and the WhatsApp ordering process is so convenient.",
+      text: "Great selection and excellent service. Every perfume arrives perfectly packaged and is 100% authentic.",
       image: "/api/placeholder/60/60"
     },
     {
@@ -32,59 +42,53 @@ const Testimonies = () => {
       name: "Aisha Mohammed",
       location: "Kaduna",
       rating: 5,
-      text: "Beautiful designs and excellent fabric quality. My husband loves his new traditional outfits from Moderate's Textile.",
-      image: "/api/placeholder/60/60"
-    },
-    {
-      id: 5,
-      name: "Folake Adebayo",
-      location: "Lagos",
-      rating: 5,
-      text: "Outstanding service and premium quality fabrics! The delivery was prompt and the packaging was excellent. Highly recommended!",
+      text: "Their way of choosing perfumes is amazing. Every recommendation has been perfect for my taste.",
       image: "/api/placeholder/60/60"
     }
   ];
 
   return (
-    <section id="testimonies" className="py-20 bg-gradient-to-br from-green-50 to-white">
+    <section id="testimonies" className="py-24 bg-gradient-to-br from-charcoal via-charcoal-light to-charcoal">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Customer Testimonies</h2>
-          <div className="w-16 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            See what our satisfied customers say about Moderate's Textile
+        <div className="text-center mb-20">
+          <span className="text-gold font-medium tracking-wider text-sm uppercase mb-4 block">Customer Reviews</span>
+          <h2 className="text-5xl font-bold text-gray-700 mb-6">What Our Customers Say</h2>
+          <div className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            See what our happy customers across Nigeria are saying about our perfumes and service.
           </p>
         </div>
-        
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid max-w-6xl mx-auto md:grid-cols-2 gap-10">
           {testimonies.map((testimony, index) => (
-            <div 
-              key={testimony.id} 
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-fade-in-up"
+            <div
+              key={testimony.id}
+              className="bg-beige-light/10 backdrop-blur-sm p-8 rounded-3xl elegant-border hover:bg-beige-light/20 elegant-transition transform hover:-translate-y-2 animate-fade-in-up shadow-lg"
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
-                  <FaQuoteLeft className="text-green-600 text-2xl opacity-50" />
+                  <FaQuoteLeft className="text-gold text-3xl opacity-60" />
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-6">
                     {[...Array(testimony.rating)].map((_, i) => (
-                      <FaStar key={i} className="text-yellow-400 text-sm" />
+                      <FaStar key={i} className="text-gold text-lg" />
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-6 leading-relaxed italic">
+                  <p className="text-gray-700 mb-8 leading-relaxed text-lg italic font-light" style={{ opacity: 1, visibility: 'visible' }}>
                     "{testimony.text}"
                   </p>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                      <span className="text-green-600 font-bold text-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 gradient-gold rounded-full flex items-center justify-center">
+                      <span className="text-charcoal font-bold text-xl">
                         {testimony.name.charAt(0)}
                       </span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-800">{testimony.name}</h4>
-                      <p className="text-gray-500 text-sm">{testimony.location}</p>
+                      <h4 className="font-bold text-gray-700 text-lg">{testimony.name}</h4>
+                      <p className="text-gold text-sm font-medium">{testimony.location}</p>
                     </div>
                   </div>
                 </div>
@@ -92,16 +96,86 @@ const Testimonies = () => {
             </div>
           ))}
         </div>
-        
-        <div className="text-center mt-12">
-          <div className="bg-green-600 text-white p-6 rounded-2xl max-w-2xl mx-auto">
-            <h3 className="text-xl font-bold mb-2">Join Our Happy Customers</h3>
-            <p className="mb-4">Experience premium quality at affordable prices</p>
-            <a 
-              href="https://wa.me/2347069257877" 
-              className="inline-flex items-center bg-white text-green-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all"
+
+        {/* Mobile Slider */}
+        <div className="md:hidden relative max-w-sm mx-auto">
+          <div className="overflow-hidden">
+            <div
+              className="flex elegant-transition"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              Start Shopping Now
+              {testimonies.map((testimony) => (
+                <div
+                  key={testimony.id}
+                  className="w-full flex-shrink-0 px-4"
+                >
+                  <div className="bg-beige-light/10 backdrop-blur-sm p-6 rounded-3xl elegant-border shadow-lg">
+                    <div className="text-center">
+                      <FaQuoteLeft className="text-gold text-2xl opacity-60 mx-auto mb-4" />
+                      <div className="flex items-center justify-center mb-4">
+                        {[...Array(testimony.rating)].map((_, i) => (
+                          <FaStar key={i} className="text-gold" />
+                        ))}
+                      </div>
+                      <p className="text-charcoal mb-6 leading-relaxed italic font-light" style={{ opacity: 1, visibility: 'visible' }}>
+                        "{testimony.text}"
+                      </p>
+                      <div className="flex items-center justify-center space-x-3">
+                        <div className="w-12 h-12 gradient-gold rounded-full flex items-center justify-center">
+                          <span className="text-charcoal font-bold">
+                            {testimony.name.charAt(0)}
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-charcoal">{testimony.name}</h4>
+                          <p className="text-gold text-sm font-medium">{testimony.location}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-gold/20 backdrop-blur-sm text-gold p-3 rounded-full elegant-transition hover:bg-gold/30"
+          >
+            <FaChevronLeft size={16} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-gold/20 backdrop-blur-sm text-gold p-3 rounded-full elegant-transition hover:bg-gold/30"
+          >
+            <FaChevronRight size={16} />
+          </button>
+
+          {/* Dots */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {testimonies.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full elegant-transition ${index === currentSlide ? 'bg-gold' : 'bg-gold/30'
+                  }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="text-center mt-20">
+          <div className="card-elegant p-10 max-w-3xl mx-auto">
+            <h3 className="text-3xl font-bold text-charcoal mb-4">Join Our Happy Customers</h3>
+            <p className="text-charcoal-light mb-8 text-lg leading-relaxed">
+              Become part of our community of satisfied customers who love quality perfumes and great service.
+            </p>
+            <a
+              href="https://api.whatsapp.com/send?phone=%2B2347031862712&text&app_absent=0"
+              className="btn-gold inline-flex items-center px-8 py-4 rounded-full font-semibold elegant-shadow hover:elegant-shadow-xl transform hover:scale-105 elegant-transition"
+            >
+              Shop Now
             </a>
           </div>
         </div>

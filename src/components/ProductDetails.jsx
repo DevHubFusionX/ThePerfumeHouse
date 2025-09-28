@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Button from './ui/Button';
 import { API_ENDPOINTS, apiRequest } from '../utils/api';
+import '../styles/theme.css';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -54,18 +55,18 @@ const ProductDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+      <div className="min-h-screen bg-beige-light flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-beige-light flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Product not found</h2>
-          <Button onClick={() => navigate('/')}>Back to Home</Button>
+          <h2 className="text-2xl font-bold text-charcoal mb-4">Fragrance Not Found</h2>
+          <Button onClick={() => navigate('/')} className="btn-primary">Return to Collection</Button>
         </div>
       </div>
     );
@@ -76,21 +77,21 @@ const ProductDetails = () => {
     (product.image ? [product.image] : ['https://via.placeholder.com/400x400?text=No+Image']));
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <nav className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6 lg:mb-8">
-          <button onClick={() => navigate('/')} className="hover:text-green-600 transition-colors truncate">Home</button>
-          <span>/</span>
-          <button onClick={() => navigate('/products')} className="hover:text-green-600 transition-colors truncate">Products</button>
-          <span>/</span>
-          <span className="text-gray-900 truncate">{product.name}</span>
+    <div className="min-h-screen bg-gradient-to-br from-beige-light via-nude-light to-beige pt-24">
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <nav className="flex items-center space-x-3 text-sm text-charcoal-light mb-8">
+          <button onClick={() => navigate('/')} className="hover:text-gold elegant-transition">Home</button>
+          <span className="text-gold">•</span>
+          <button onClick={() => navigate('/products')} className="hover:text-gold elegant-transition">Fragrances</button>
+          <span className="text-gold">•</span>
+          <span className="text-charcoal font-medium">{product.name}</span>
         </nav>
 
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16">
+        <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
-          <div className="space-y-3 sm:space-y-4">
-            <div className="relative bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
-              <div className="relative aspect-square bg-gray-50 rounded-lg sm:rounded-xl overflow-hidden">
+          <div className="space-y-6">
+            <div className="card-elegant p-6">
+              <div className="relative aspect-square bg-nude-light rounded-2xl overflow-hidden">
                 <img 
                   src={imageError ? 'https://via.placeholder.com/600x600?text=No+Image' : currentImages[currentImageIndex]} 
                   alt={product.name}
@@ -102,18 +103,18 @@ const ProductDetails = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all"
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-beige-light/95 text-charcoal p-3 rounded-full elegant-shadow hover:scale-110 elegant-transition"
                     >
-                      <FaChevronLeft size={14} className="sm:w-4 sm:h-4" />
+                      <FaChevronLeft size={16} />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/90 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-beige-light/95 text-charcoal p-3 rounded-full elegant-shadow hover:scale-110 elegant-transition"
                     >
-                      <FaChevronRight size={14} className="sm:w-4 sm:h-4" />
+                      <FaChevronRight size={16} />
                     </button>
                     
-                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/70 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                    <div className="absolute top-4 right-4 bg-charcoal/80 text-beige-light px-3 py-1 rounded-full text-sm font-medium">
                       {currentImageIndex + 1} / {currentImages.length}
                     </div>
                   </>
@@ -123,21 +124,21 @@ const ProductDetails = () => {
 
             {/* Thumbnail Grid */}
             {currentImages.length > 1 && (
-              <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm">
-                <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1.5 sm:gap-2">
+              <div className="card-elegant p-4">
+                <div className="grid grid-cols-6 lg:grid-cols-8 gap-2">
                   {currentImages.slice(0, 12).map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`aspect-square rounded-md sm:rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${
-                        index === currentImageIndex ? 'border-green-500 ring-1 sm:ring-2 ring-green-200' : 'border-gray-200 hover:border-gray-300'
+                      className={`aspect-square rounded-lg overflow-hidden elegant-border elegant-transition hover:scale-105 ${
+                        index === currentImageIndex ? 'ring-2 ring-gold' : 'hover:ring-1 hover:ring-gold/50'
                       }`}
                     >
                       <img src={image} alt={`View ${index + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                   {currentImages.length > 12 && (
-                    <div className="aspect-square bg-gray-100 rounded-md sm:rounded-lg flex items-center justify-center text-xs text-gray-500 font-medium">
+                    <div className="aspect-square bg-nude-light rounded-lg flex items-center justify-center text-xs text-charcoal-light font-medium">
                       +{currentImages.length - 12}
                     </div>
                   )}
@@ -147,19 +148,22 @@ const ProductDetails = () => {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-              <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
-                <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+          <div className="space-y-8">
+            <div className="card-elegant p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="gradient-gold text-charcoal px-4 py-2 rounded-full text-sm font-semibold">
                   {product.category}
                 </span>
-                <span className="text-gray-400 hidden sm:inline">•</span>
-                <span className="text-xs sm:text-sm text-gray-500">In Stock</span>
+                <span className="text-gold">•</span>
+                <span className="text-sm text-charcoal-light font-medium">Available Now</span>
               </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">{product.name}</h1>
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
-                <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600">{product.price}</p>
-                <span className="text-sm sm:text-base lg:text-lg text-gray-500">per piece</span>
+              <h1 className="text-4xl font-bold text-charcoal mb-6 leading-tight">{product.name}</h1>
+              <p className="text-charcoal-light mb-6 text-lg leading-relaxed">
+                Experience the artistry of fine fragrance with this exquisite composition, crafted for those who appreciate olfactory excellence.
+              </p>
+              <div className="flex items-baseline gap-3">
+                <p className="text-4xl font-bold text-gold">{product.price}</p>
+                <span className="text-lg text-charcoal-light">per bottle</span>
               </div>
             </div>
 
@@ -193,33 +197,82 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Fabric Details */}
-            {(product.fabricType || product.texture || product.quality || product.care) && (
+            {/* Fragrance Details */}
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Fragrance Details</h3>
+              <div className="space-y-3 sm:space-y-4">
+                {product.brand && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">Brand</span>
+                    <span className="text-gray-900 text-sm sm:text-base">{product.brand}</span>
+                  </div>
+                )}
+                {product.size && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">Size</span>
+                    <span className="text-gray-900 text-sm sm:text-base">{product.size}</span>
+                  </div>
+                )}
+                {product.fragranceType && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">Type</span>
+                    <span className="text-gray-900 text-sm sm:text-base">{product.fragranceType}</span>
+                  </div>
+                )}
+                {product.longevity && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">Longevity</span>
+                    <span className="text-gray-900 text-sm sm:text-base">{product.longevity}</span>
+                  </div>
+                )}
+                {product.sillage && (
+                  <div className="flex flex-col sm:flex-row sm:justify-between py-2 gap-1 sm:gap-2">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">Sillage</span>
+                    <span className="text-gray-900 text-sm sm:text-base">{product.sillage}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Fragrance Notes */}
+            {product.notes && (product.notes.top?.length > 0 || product.notes.middle?.length > 0 || product.notes.base?.length > 0) && (
               <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Product Details</h3>
-                <div className="space-y-3 sm:space-y-4">
-                  {product.fabricType && (
-                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
-                      <span className="font-medium text-gray-700 text-sm sm:text-base">Fabric Type</span>
-                      <span className="text-gray-900 text-sm sm:text-base">{product.fabricType}</span>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Fragrance Notes</h3>
+                <div className="space-y-4">
+                  {product.notes.top?.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-700 text-sm mb-2">Top Notes</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {product.notes.top.map((note, index) => (
+                          <span key={index} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                            {note}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
-                  {product.texture && (
-                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
-                      <span className="font-medium text-gray-700 text-sm sm:text-base">Texture</span>
-                      <span className="text-gray-900 text-sm sm:text-base">{product.texture}</span>
+                  {product.notes.middle?.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-700 text-sm mb-2">Middle Notes</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {product.notes.middle.map((note, index) => (
+                          <span key={index} className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">
+                            {note}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
-                  {product.quality && (
-                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-2">
-                      <span className="font-medium text-gray-700 text-sm sm:text-base">Quality</span>
-                      <span className="text-gray-900 text-sm sm:text-base">{product.quality}</span>
-                    </div>
-                  )}
-                  {product.care && (
-                    <div className="flex flex-col sm:flex-row sm:justify-between py-2 gap-1 sm:gap-2">
-                      <span className="font-medium text-gray-700 text-sm sm:text-base">Care Instructions</span>
-                      <span className="text-gray-900 text-sm sm:text-base">{product.care}</span>
+                  {product.notes.base?.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-700 text-sm mb-2">Base Notes</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {product.notes.base.map((note, index) => (
+                          <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                            {note}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -227,22 +280,20 @@ const ProductDetails = () => {
             )}
 
             {/* Order Section */}
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border-2 border-green-100">
-              <div className="text-center mb-4 sm:mb-6">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Ready to Order?</h3>
-                <p className="text-gray-600 text-sm sm:text-base">Contact us directly via WhatsApp for instant service</p>
+            <div className="card-elegant p-8 elegant-border">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-charcoal mb-3">Claim Your Signature Scent</h3>
+                <p className="text-charcoal-light text-lg">Reserve this exquisite fragrance and let our olfactory specialists curate your perfect collection</p>
               </div>
-              <Button
-                variant="whatsapp"
-                size="lg"
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all"
-                icon={<FaWhatsapp size={20} className="sm:w-6 sm:h-6" />}
+              <button
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-4 text-lg font-semibold rounded-xl elegant-shadow hover:elegant-shadow-xl elegant-transition flex items-center justify-center gap-3"
                 onClick={handleWhatsAppOrder}
               >
-                Order via WhatsApp
-              </Button>
-              <div className="mt-3 sm:mt-4 text-center">
-                <p className="text-xs sm:text-sm text-gray-500">Fast response • Secure payment • Nationwide delivery</p>
+                <FaWhatsapp size={24} />
+                Reserve & Consult
+              </button>
+              <div className="mt-6 text-center">
+                <p className="text-sm text-charcoal-light">Immediate Consultation • Authenticity Certified • White-Glove Service</p>
               </div>
             </div>
           </div>

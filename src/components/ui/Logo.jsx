@@ -10,9 +10,9 @@ const Logo = ({ size = 'md', showDetails = false }) => {
   };
 
   const MonogramIcon = () => (
-    <div className={`${sizes[size].container} bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg`}>
+    <div className={`${sizes[size].container} bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg`}>
       <span className={`${sizes[size].monogram} font-bold text-white tracking-wider`}>
-        MT
+        EB
       </span>
     </div>
   );
@@ -26,13 +26,13 @@ const Logo = ({ size = 'md', showDetails = false }) => {
       <MonogramIcon />
       <div className="mt-3">
         <h1 className={`${sizes[size].text} font-bold text-gray-800 tracking-wider`}>
-          MODERATE'S TEXTILE
+          ESSENCE BOUTIQUE
         </h1>
         <div className="flex justify-center space-x-3 mt-2">
-          <a href="https://x.com/moderate_ustaz" className="text-blue-500 hover:text-blue-600 transition-colors">
+          <a href="https://x.com/essence_boutique" className="text-blue-500 hover:text-blue-600 transition-colors">
             <FaTwitter size={14} />
           </a>
-          <a href="https://instagram.com/moderates_textile" className="text-pink-500 hover:text-pink-600 transition-colors">
+          <a href="https://instagram.com/essence_boutique" className="text-pink-500 hover:text-pink-600 transition-colors">
             <FaInstagram size={14} />
           </a>
           <a href="https://wa.me/2347069257877" className="text-green-500 hover:text-green-600 transition-colors">

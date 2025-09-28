@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FaHome, FaBoxes } from 'react-icons/fa';
+import '../styles/theme.css';
 import AdminHeader from './admin/AdminHeader';
 import AdminSidebar from './admin/AdminSidebar';
+import WelcomeBanner from './admin/WelcomeBanner';
+import DashboardStats from './admin/DashboardStats';
 import ProductForm from './admin/ProductForm';
 import ProductList from './admin/ProductList';
 import ComboForm from './admin/ComboForm';
 import ComboList from './admin/ComboList';
 import ComboPreviewModal from './admin/ComboPreviewModal';
+import ProductDetailsModal from './admin/ProductDetailsModal';
 import PasswordForm from './admin/PasswordForm';
 import EmailForm from './admin/EmailForm';
 import EmptyState from './admin/EmptyState';
@@ -36,6 +40,8 @@ const AdminPanel = ({ onLogout }) => {
   const [emailLoading, setEmailLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [showProductDetails, setShowProductDetails] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -264,13 +270,18 @@ const AdminPanel = ({ onLogout }) => {
     return matchesSearch && matchesFilter;
   });
 
+  const handleViewProductDetails = (product) => {
+    setSelectedProduct(product);
+    setShowProductDetails(true);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     onLogout();
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-beige-light via-nude-light to-beige">
       <AdminHeader
         activeTab={activeTab}
         itemCount={activeTab === 'products' ? products.length : combos.length}
@@ -293,38 +304,52 @@ const AdminPanel = ({ onLogout }) => {
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Navigation Tabs */}
-        <div className="mb-4 sm:mb-6">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex">
+        <div className="mb-6">
+          <div className="card-elegant p-2">
+            <nav className="flex">
               <button
                 onClick={() => setActiveTab('products')}
-                className={`flex-1 sm:flex-none py-3 px-4 sm:px-6 border-b-2 font-medium text-sm transition-colors text-center ${
+                className={`flex-1 sm:flex-none py-4 px-6 rounded-xl font-semibold text-sm elegant-transition text-center group ${
                   activeTab === 'products'
-                    ? 'border-green-500 text-green-600 bg-green-50'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'gradient-gold text-charcoal elegant-shadow transform scale-105'
+                    : 'text-charcoal-light hover:text-gold hover:bg-gold/10'
                 }`}
               >
-                <FaHome className="inline mr-2" />Products
-                <span className="ml-1 text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+                <FaHome className="inline mr-2" />Perfumes
+                <span className={`ml-2 text-xs px-2 py-1 rounded-full ${
+                  activeTab === 'products'
+                    ? 'bg-charcoal/20 text-charcoal'
+                    : 'bg-gold/20 text-gold'
+                }`}>
                   {products.length}
                 </span>
               </button>
               <button
                 onClick={() => setActiveTab('combos')}
-                className={`flex-1 sm:flex-none py-3 px-4 sm:px-6 border-b-2 font-medium text-sm transition-colors text-center ${
+                className={`flex-1 sm:flex-none py-4 px-6 rounded-xl font-semibold text-sm elegant-transition text-center group ${
                   activeTab === 'combos'
-                    ? 'border-green-500 text-green-600 bg-green-50'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'gradient-gold text-charcoal elegant-shadow transform scale-105'
+                    : 'text-charcoal-light hover:text-gold hover:bg-gold/10'
                 }`}
               >
-                <FaBoxes className="inline mr-2" />Combos
-                <span className="ml-1 text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+                <FaBoxes className="inline mr-2" />Gift Sets
+                <span className={`ml-2 text-xs px-2 py-1 rounded-full ${
+                  activeTab === 'combos'
+                    ? 'bg-charcoal/20 text-charcoal'
+                    : 'bg-gold/20 text-gold'
+                }`}>
                   {combos.length}
                 </span>
               </button>
             </nav>
           </div>
         </div>
+
+        {/* Welcome Banner */}
+        <WelcomeBanner />
+
+        {/* Dashboard Stats */}
+        <DashboardStats products={products} combos={combos} />
 
         {showEmailForm && (
           <EmailForm
@@ -396,11 +421,11 @@ const AdminPanel = ({ onLogout }) => {
 
         {showAddForm && activeTab === 'combos' && (
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4"
+            className="fixed inset-0 bg-charcoal/60 backdrop-blur-md flex items-end sm:items-center justify-center z-50 p-0 sm:p-4"
             onClick={resetComboForm}
           >
             <div 
-              className="w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl transform transition-all duration-500 ease-out animate-slide-up"
+              className="w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto card-elegant rounded-t-3xl sm:rounded-3xl elegant-shadow-xl transform elegant-transition animate-slide-up"
               onClick={(e) => e.stopPropagation()}
             >
               <ComboForm
@@ -419,16 +444,30 @@ const AdminPanel = ({ onLogout }) => {
         )}
 
         {showAddForm && activeTab === 'products' && (
-          <ProductForm
-            product={editingId ? products.find(p => p._id === editingId) : null}
-            onSubmit={handleSubmit}
-            onCancel={() => {
+          <div 
+            className="fixed inset-0 bg-charcoal/60 backdrop-blur-md flex items-end sm:items-center justify-center z-50 p-0 sm:p-4"
+            onClick={() => {
               setShowAddForm(false);
               setEditingId(null);
               setFormData({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
             }}
-            loading={loading}
-          />
+          >
+            <div 
+              className="w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto card-elegant rounded-t-3xl sm:rounded-3xl elegant-shadow-xl transform elegant-transition animate-fade-in-up"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ProductForm
+                product={editingId ? products.find(p => p._id === editingId) : null}
+                onSubmit={handleSubmit}
+                onCancel={() => {
+                  setShowAddForm(false);
+                  setEditingId(null);
+                  setFormData({ name: '', price: '', category: '', description: '', fabricType: '', texture: '', quality: '', care: '', images: [] });
+                }}
+                loading={loading}
+              />
+            </div>
+          </div>
         )}
 
         {activeTab === 'products' && (
@@ -438,6 +477,7 @@ const AdminPanel = ({ onLogout }) => {
             onDelete={handleDelete}
             deletingId={deletingId}
             onAddNew={() => setShowAddForm(true)}
+            onViewDetails={handleViewProductDetails}
           />
         )}
 
@@ -463,6 +503,13 @@ const AdminPanel = ({ onLogout }) => {
           isOpen={showComboPreview}
           onClose={() => setShowComboPreview(false)}
           onEdit={handleEditCombo}
+        />
+
+        {/* Product Details Modal */}
+        <ProductDetailsModal
+          product={selectedProduct}
+          isOpen={showProductDetails}
+          onClose={() => setShowProductDetails(false)}
         />
            
         {((activeTab === 'products' && products.length === 0) || (activeTab === 'combos' && combos.length === 0)) && (

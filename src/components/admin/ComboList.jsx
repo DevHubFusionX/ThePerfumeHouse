@@ -23,46 +23,52 @@ const ComboList = ({
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div className="p-4 sm:p-6 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-          <h2 className="text-lg font-semibold text-gray-900">Combos ({filteredCombos.length})</h2>
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-100">
+      <div className="p-6 border-b border-purple-100">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">Combo Collections</h2>
+            <p className="text-sm text-gray-600 mt-1">{filteredCombos.length} combo sets available</p>
+          </div>
           <button
             onClick={onAddNew}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
+            className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
           >
-            <FaBoxes className="text-xs" />
-            <span>Add New Combo</span>
+            <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            <div className="relative flex items-center space-x-2">
+              <FaBoxes className="text-sm" />
+              <span>Add New Combo</span>
+            </div>
           </button>
         </div>
       </div>
       
       <div className="p-4 sm:p-6">
         {/* Search and Filter Controls */}
-        <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-0 sm:flex sm:gap-4">
+        <div className="mb-6 space-y-4 sm:space-y-0 sm:flex sm:gap-4">
           <div className="flex-1 relative">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-400 text-sm" />
             <input
               type="text"
-              placeholder="Search combos..."
+              placeholder="Search combo collections..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              className="w-full pl-12 pr-4 py-4 border border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm bg-white/50 backdrop-blur-sm"
             />
           </div>
-          <div className="flex items-center justify-between sm:justify-start space-x-3 bg-gray-50 p-3 rounded-lg">
+          <div className="flex items-center justify-between sm:justify-start space-x-3 bg-purple-50/50 backdrop-blur-sm p-4 rounded-xl border border-purple-100">
             <div className="flex items-center space-x-2">
-              <FaFilter className="text-gray-400 text-sm" />
-              <span className="text-sm text-gray-600">Filters:</span>
+              <FaFilter className="text-purple-500 text-sm" />
+              <span className="text-sm text-purple-700 font-medium">Filters:</span>
             </div>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={filterPopular}
                 onChange={(e) => setFilterPopular(e.target.checked)}
-                className="rounded text-green-600 focus:ring-green-500"
+                className="rounded text-purple-600 focus:ring-purple-500"
               />
-              <span className="text-sm text-gray-700">Popular only</span>
+              <span className="text-sm text-purple-700 font-medium">Popular only</span>
             </label>
           </div>
         </div>
@@ -96,7 +102,7 @@ const ComboList = ({
                 setSearchTerm('');
                 setFilterPopular(false);
               }}
-              className="text-purple-600 hover:text-purple-700 font-medium"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
             >
               Clear filters
             </button>

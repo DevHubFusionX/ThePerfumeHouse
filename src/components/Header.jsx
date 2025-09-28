@@ -1,125 +1,180 @@
 import React, { useState } from 'react';
-import { FaWhatsapp, FaBars, FaTimes } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaWhatsapp, FaBars, FaTimes, FaSearch, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import Logo from './ui/Logo';
+import '../styles/theme.css';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   return (
     <>
-      <header className="fixed top-0 w-full bg-gradient-to-r from-white via-green-50/30 to-white backdrop-blur-md shadow-lg border-b border-green-100/50 z-50">
-        {/* Decorative top line */}
-        <div className="h-1 bg-gradient-to-r from-green-400 via-green-600 to-green-400"></div>
-        
+      <header className="fixed top-0 w-full bg-beige-light/95 backdrop-blur-md elegant-shadow border-b elegant-border z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            {/* Logo Section with unique styling */}
-            <Link to="/" className="group flex items-center space-x-3 relative">
-              <div className="relative">
-                <div className="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                <Logo size="md" className="relative z-10" />
+            {/* Logo */}
+            <Link to="/" className="flex items-center space-x-2 sm:space-x-3 elegant-transition hover:opacity-80">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 gradient-gold rounded-xl flex items-center justify-center elegant-shadow">
+                <span className="text-charcoal font-bold text-lg sm:text-xl">PH</span>
               </div>
-              <div className="relative">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-green-800 bg-clip-text text-transparent">
-                  Moderate's Textile
-                </h1>
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-400 to-green-600 group-hover:w-full transition-all duration-300"></div>
+              <div>
+                <span className="text-lg sm:text-2xl font-bold text-charcoal">theperfumehouse.ng</span>
+                <p className="text-xs text-charcoal-light font-medium tracking-wider hidden sm:block">LUXURY FRAGRANCES</p>
               </div>
             </Link>
             
-            {/* Navigation with unique pill design */}
-            <nav className="hidden md:flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 shadow-md border border-green-100">
-              <div className="flex space-x-1">
-                <Link to="/" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
-                  <span className="relative z-10">Home</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-10">
+              <Link to="/" className="text-charcoal hover:text-gold font-medium elegant-transition relative group">
+                Home
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
+              </Link>
+              <div className="relative group">
+                <Link to="/products" className="text-charcoal hover:text-gold font-medium elegant-transition relative">
+                  Fragrances
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
                 </Link>
-                <Link to="/products" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
-                  <span className="relative z-10">Products</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </Link>
-                <Link to="/combos" className="relative px-4 py-2 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-full hover:bg-green-50 group">
-                  <span className="relative z-10">Combos</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </Link>
+                <div className="absolute top-full left-0 w-64 bg-beige-light elegant-shadow-xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible elegant-transition mt-3 elegant-border">
+                  <div className="p-4">
+                    <div className="mb-3">
+                      <span className="text-xs text-gold font-semibold tracking-wider uppercase">Collections</span>
+                    </div>
+                    <Link to="/collections/men" className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:bg-gold/10 hover:text-gold rounded-xl elegant-transition">
+                      <div className="w-8 h-8 bg-charcoal rounded-lg flex items-center justify-center">
+                        <span className="text-gold text-xs font-bold">M</span>
+                      </div>
+                      <div>
+                        <div className="font-medium">Masculine Collection</div>
+                        <div className="text-xs text-charcoal-light">Distinguished gentlemen</div>
+                      </div>
+                    </Link>
+                    <Link to="/collections/women" className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:bg-gold/10 hover:text-gold rounded-xl elegant-transition">
+                      <div className="w-8 h-8 gradient-nude rounded-lg flex items-center justify-center">
+                        <span className="text-charcoal text-xs font-bold">W</span>
+                      </div>
+                      <div>
+                        <div className="font-medium">Feminine Collection</div>
+                        <div className="text-xs text-charcoal-light">Elegant sophistication</div>
+                      </div>
+                    </Link>
+                    <Link to="/collections/unisex" className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:bg-gold/10 hover:text-gold rounded-xl elegant-transition">
+                      <div className="w-8 h-8 gradient-silver rounded-lg flex items-center justify-center">
+                        <span className="text-charcoal text-xs font-bold">U</span>
+                      </div>
+                      <div>
+                        <div className="font-medium">Universal Collection</div>
+                        <div className="text-xs text-charcoal-light">Transcendent harmony</div>
+                      </div>
+                    </Link>
+                    <div className="border-t elegant-border mt-3 pt-3">
+                      <Link to="/products" className="block px-4 py-2 text-sm text-charcoal-light hover:text-gold elegant-transition font-medium">View All Fragrances →</Link>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <Link to="/combos" className="text-charcoal hover:text-gold font-medium elegant-transition relative group">
+                Gift Sets
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
+              </Link>
+              <Link to="/about" className="text-charcoal hover:text-gold font-medium elegant-transition relative group">
+                About
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold elegant-transition group-hover:w-full"></span>
+              </Link>
             </nav>
             
-            {/* Action buttons with creative styling */}
-            <div className="flex items-center space-x-3">
-              <div className="hidden sm:flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-md border border-green-100">
-                <a href="https://wa.me/2347069257877" className="relative p-2 text-green-600 hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaWhatsapp size={18} className="relative z-10" />
-                </a>
-                <a href="https://x.com/moderate_ustaz" className="relative p-2 text-black hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-black rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaXTwitter size={18} className="relative z-10" />
-                </a>
-              </div>
+            {/* Action Icons */}
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <button className="hidden md:block p-3 text-charcoal-light hover:text-gold elegant-transition rounded-lg hover:bg-nude-light">
+                <FaSearch size={18} />
+              </button>
+              <button className="hidden md:block p-3 text-charcoal-light hover:text-gold elegant-transition relative rounded-lg hover:bg-nude-light">
+                <FaHeart size={18} />
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-charcoal text-xs rounded-full flex items-center justify-center font-semibold">2</span>
+              </button>
+              <a href="https://api.whatsapp.com/send?phone=%2B2347031862712&text&app_absent=0" className="btn-primary flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-3">
+                <FaWhatsapp size={16} />
+                <span className="hidden sm:inline text-sm sm:text-base">Order Now</span>
+              </a>
               
-              {/* Unique mobile menu button */}
+              {/* Mobile menu button */}
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden relative p-3 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-green-100 text-gray-700 hover:text-green-700 transition-all duration-300 group"
+                className="lg:hidden p-2 sm:p-3 text-charcoal hover:text-gold elegant-transition rounded-lg hover:bg-nude-light"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative z-10">
-                  {mobileMenuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
-                </div>
+                {mobileMenuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
               </button>
             </div>
           </div>
         </div>
-        
-        {/* Unique Mobile Menu with slide animation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-gradient-to-br from-white via-green-50/30 to-white backdrop-blur-md border-t border-green-200/50 shadow-xl">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-green-600 to-green-400"></div>
-            <nav className="px-6 py-6 space-y-2">
-              <Link 
-                to="/" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
-              >
-                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
-                <span className="relative z-10">Home</span>
-              </Link>
-              <Link 
-                to="/products" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
-              >
-                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
-                <span className="relative z-10">Products</span>
-              </Link>
-              <Link 
-                to="/combos" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="group flex items-center space-x-3 p-3 text-gray-700 hover:text-green-700 font-medium transition-all duration-300 rounded-xl hover:bg-green-50/50 relative overflow-hidden"
-              >
-                <div className="absolute left-0 top-0 h-full w-1 bg-green-600 scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
-                <span className="relative z-10">Combos</span>
-              </Link>
-              
-              <div className="flex justify-center space-x-4 pt-6 mt-6 border-t border-green-200/50">
-                <a href="https://wa.me/2347069257877" className="relative p-3 bg-green-50 text-green-600 hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-green-600 rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaWhatsapp size={20} className="relative z-10" />
-                </a>
-                <a href="https://x.com/moderate_ustaz" className="relative p-3 bg-gray-50 text-black hover:text-white transition-all duration-300 rounded-full group">
-                  <div className="absolute inset-0 bg-black rounded-full scale-0 group-hover:scale-100 transition-transform"></div>
-                  <FaXTwitter size={20} className="relative z-10" />
-                </a>
-              </div>
-            </nav>
-          </div>
-        )}
       </header>
       
+      {/* Mobile Sidebar */}
+      <div className={`fixed inset-0 z-50 lg:hidden ${mobileMenuOpen ? 'visible' : 'invisible'}`}>
+        <div className={`absolute inset-0 bg-charcoal/60 backdrop-blur-md elegant-transition ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setMobileMenuOpen(false)}></div>
+        <div className={`absolute right-0 top-0 h-full w-80 bg-beige-light elegant-shadow-xl elegant-transition transform ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} overflow-hidden`}>
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-6 border-b elegant-border">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center">
+                  <span className="text-charcoal font-bold text-lg">PH</span>
+                </div>
+                <span className="text-lg font-bold text-charcoal">Menu</span>
+              </div>
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-charcoal hover:text-gold elegant-transition">
+                <FaTimes size={20} />
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto mobile-scroll p-6">
+              <nav className="space-y-3">
+                <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-4 text-charcoal hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition">Boutique Home</Link>
+                
+                <div className="space-y-2">
+                  <div className="px-4 py-2">
+                    <span className="text-xs text-gold font-semibold tracking-wider uppercase">Collections</span>
+                  </div>
+                  <Link to="/collections/men" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:text-gold hover:bg-gold/10 rounded-xl elegant-transition">
+                    <div className="w-8 h-8 bg-charcoal rounded-lg flex items-center justify-center">
+                      <span className="text-gold text-xs font-bold">M</span>
+                    </div>
+                    <span className="font-medium">Masculine</span>
+                  </Link>
+                  <Link to="/collections/women" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:text-gold hover:bg-gold/10 rounded-xl elegant-transition">
+                    <div className="w-8 h-8 gradient-nude rounded-lg flex items-center justify-center">
+                      <span className="text-charcoal text-xs font-bold">W</span>
+                    </div>
+                    <span className="font-medium">Feminine</span>
+                  </Link>
+                  <Link to="/collections/unisex" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-3 px-4 py-3 text-charcoal hover:text-gold hover:bg-gold/10 rounded-xl elegant-transition">
+                    <div className="w-8 h-8 gradient-silver rounded-lg flex items-center justify-center">
+                      <span className="text-charcoal text-xs font-bold">U</span>
+                    </div>
+                    <span className="font-medium">Universal</span>
+                  </Link>
+                  <Link to="/products" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-charcoal-light hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition text-sm">All Fragrances</Link>
+                </div>
+                
+                <Link to="/combos" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-4 text-charcoal hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition">Curated Ensembles</Link>
+                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-4 text-charcoal hover:text-gold hover:bg-nude-light font-medium rounded-xl elegant-transition">About Atelier</Link>
+              </nav>
+            </div>
+            
+            <div className="border-t elegant-border p-6">
+              <div className="flex items-center justify-center space-x-6">
+                <button className="p-3 text-charcoal hover:text-gold elegant-transition rounded-lg hover:bg-nude-light">
+                  <FaSearch size={18} />
+                </button>
+                <button className="p-3 text-charcoal hover:text-gold elegant-transition relative rounded-lg hover:bg-nude-light">
+                  <FaHeart size={18} />
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-charcoal text-xs rounded-full flex items-center justify-center font-semibold">2</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       {/* Floating WhatsApp Button */}
-      <a href="https://wa.me/2347069257877" className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all z-50 animate-pulse">
+      <a href="https://api.whatsapp.com/send?phone=%2B2347031862712&text&app_absent=0" className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full elegant-shadow-lg hover:elegant-shadow-xl elegant-transition z-40 hover:scale-110">
         <FaWhatsapp size={24} />
       </a>
     </>
