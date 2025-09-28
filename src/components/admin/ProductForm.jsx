@@ -203,7 +203,7 @@ const ProductForm = ({ product, onSubmit, onCancel, loading }) => {
                 <option value="Men">Men</option>
                 <option value="Women">Women</option>
                 <option value="Unisex">Unisex</option>
-                <option value="Gift Sets">Gift Sets</option>
+
               </select>
             </div>
           </div>

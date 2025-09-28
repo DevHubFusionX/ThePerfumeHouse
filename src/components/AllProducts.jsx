@@ -161,118 +161,11 @@ const AllProducts = React.memo(() => {
         </div>
 
         <div className="container mx-auto px-6 pb-8">
-          {/* Filters & Controls */}
-          <div className="card-elegant p-8 mb-8">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-              <div className="flex flex-col sm:flex-row gap-4 flex-1">
-                <div className="relative flex-1 max-w-md">
-                  <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-charcoal-light" />
-                  <input
-                    type="text"
-                    placeholder="Search perfumes..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="w-full pl-12 pr-4 py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal"
-                  />
-                </div>
 
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="btn-primary flex items-center space-x-2 px-6 py-4 lg:hidden"
-                >
-                  <FaFilter size={16} />
-                  <span>Filters</span>
-                </button>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-3 rounded-xl elegant-transition ${viewMode === 'grid' ? 'bg-gold text-charcoal' : 'text-charcoal-light hover:text-gold'
-                      }`}
-                  >
-                    <FaTh />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-3 rounded-xl elegant-transition ${viewMode === 'list' ? 'bg-gold text-charcoal' : 'text-charcoal-light hover:text-gold'
-                      }`}
-                  >
-                    <FaList />
-                  </button>
-                </div>
-
-                <div className="bg-gold/10 rounded-xl px-6 py-3">
-                  <span className="text-charcoal font-semibold">
-                    {filteredProducts.length} {filteredProducts.length === 1 ? 'Perfume' : 'Perfumes'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Advanced Filters */}
-            <div className={`mt-6 pt-6 border-t border-beige-dark ${showFilters || window.innerWidth >= 1024 ? 'block' : 'hidden'}`}>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="relative">
-                  <select
-                    value={selectedCategory}
-                    onChange={handleCategoryChange}
-                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
-                  >
-                    {categories.map(category => (
-                      <option key={category} value={category} className="py-2">{category}</option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={priceRange}
-                    onChange={(e) => setPriceRange(e.target.value)}
-                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
-                  >
-                    {priceRanges.map(range => (
-                      <option key={range.value} value={range.value} className="py-2">{range.label}</option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={sortBy}
-                    onChange={handleSortChange}
-                    className="w-full px-4 py-3 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal bg-white elegant-transition hover:border-gold appearance-none cursor-pointer"
-                  >
-                    <option value="popular" className="py-2">Most Popular</option>
-                    <option value="newest" className="py-2">Newest Arrivals</option>
-                    <option value="name" className="py-2">Alphabetical</option>
-                    <option value="price-low" className="py-2">Price: Low to High</option>
-                    <option value="price-high" className="py-2">Price: High to Low</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg className="w-5 h-5 text-charcoal-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {loading ? (
             <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                 : 'grid-cols-1 max-w-4xl mx-auto'
               }`}>
               {[...Array(8)].map((_, index) => (
@@ -281,7 +174,7 @@ const AllProducts = React.memo(() => {
             </div>
           ) : (
             <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                ? 'grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                 : 'grid-cols-1 max-w-4xl mx-auto'
               }`}>
               {filteredProducts.map((product, index) => (

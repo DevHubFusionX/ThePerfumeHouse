@@ -3,6 +3,7 @@ import ProductCard from './ui/ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { cache } from '../utils/cache';
 import { API_ENDPOINTS, apiRequest } from '../utils/api';
+import { motion } from 'framer-motion';
 import '../styles/theme.css';
 
 const Shop = () => {
@@ -36,16 +37,48 @@ const Shop = () => {
   return (
     <section id="shop" className="py-24 bg-beige-light">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-gold/10 text-gold px-6 py-3 rounded-full text-sm font-semibold mb-6 elegant-border">
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <motion.div 
+            className="inline-flex items-center bg-gold/10 text-gold px-6 py-3 rounded-full text-sm font-semibold mb-6 elegant-border"
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 200 }}
+          >
             ✨ Bestsellers
-          </div>
-          <h2 className="text-5xl font-bold text-charcoal mb-6">Signature Collection</h2>
-          <div className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"></div>
-          <p className="text-xl text-charcoal-light max-w-4xl mx-auto leading-relaxed">
+          </motion.div>
+          <motion.h2 
+            className="text-5xl font-bold text-charcoal mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            Signature Collection
+          </motion.h2>
+          <motion.div 
+            className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: 96, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          ></motion.div>
+          <motion.p 
+            className="text-xl text-charcoal-light max-w-4xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
             Discover the fragrances that have captivated hearts and defined elegance. Each scent in our signature collection represents the pinnacle of olfactory artistry.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
         
         {loading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -55,32 +88,85 @@ const Shop = () => {
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <motion.div 
+              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+            >
               {products.slice(0, 4).map((product, index) => (
-                <div 
+                <motion.div 
                   key={product._id}
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 150}ms` }}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    delay: index * 0.1, 
+                    duration: 0.6,
+                    ease: "easeOut"
+                  }}
+                  whileHover={{ y: -10, scale: 1.02 }}
                 >
                   <ProductCard product={product} />
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
             
-            <div className="text-center mt-20">
-              <div className="card-elegant p-10 max-w-3xl mx-auto">
-                <h3 className="text-3xl font-bold text-charcoal mb-6">See All Our Perfumes</h3>
-                <p className="text-charcoal-light mb-8 text-lg leading-relaxed">
+            <motion.div 
+              className="text-center mt-20"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.div 
+                className="card-elegant p-10 max-w-3xl mx-auto"
+                whileHover={{ y: -5, scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.h3 
+                  className="text-3xl font-bold text-charcoal mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                >
+                  See All Our Perfumes
+                </motion.h3>
+                <motion.p 
+                  className="text-charcoal-light mb-8 text-lg leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, duration: 0.6 }}
+                >
                   Browse our full collection of over 50 authentic designer perfumes from top brands around the world.
-                </p>
-                <a href="/products" className="btn-primary inline-flex items-center px-10 py-4 rounded-full elegant-shadow-lg hover:elegant-shadow-xl transform hover:scale-105">
+                </motion.p>
+                <motion.a 
+                  href="/products" 
+                  className="btn-primary inline-flex items-center px-10 py-4 rounded-full elegant-shadow-lg hover:elegant-shadow-xl"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4, duration: 0.5, type: "spring", stiffness: 200 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <span>View All Perfumes</span>
-                  <svg className="ml-3 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <motion.svg 
+                    className="ml-3 w-5 h-5" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-              </div>
-            </div>
+                  </motion.svg>
+                </motion.a>
+              </motion.div>
+            </motion.div>
           </>
         )}
         

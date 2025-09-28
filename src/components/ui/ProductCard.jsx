@@ -95,13 +95,34 @@ const ProductCard = React.memo(({ product, showActions = false, onEdit, onDelete
           <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-2 group-hover:text-gold elegant-transition leading-tight">{product.name}</h3>
         </div>
 
-        {product.brand && (
-          <div className="mb-3">
+        <div className="mb-3 space-y-2">
+          {product.brand && (
             <span className="inline-flex items-center px-2 py-1 bg-gold/10 text-gold text-xs font-semibold rounded-full elegant-border">
               {product.brand}
             </span>
+          )}
+          
+          <div className="flex flex-wrap gap-2 text-xs text-charcoal-light">
+            {product.size && (
+              <span className="bg-nude px-2 py-1 rounded">{product.size}</span>
+            )}
+            {product.fragranceType && (
+              <span className="bg-nude px-2 py-1 rounded">{product.fragranceType}</span>
+            )}
           </div>
-        )}
+          
+          {product.longevity && (
+            <div className="text-xs text-charcoal-light">
+              <span className="font-medium">Longevity:</span> {product.longevity}
+            </div>
+          )}
+          
+          {product.description && (
+            <p className="text-sm text-charcoal-light line-clamp-2 leading-relaxed">
+              {product.description}
+            </p>
+          )}
+        </div>
 
         <div className="mt-auto border-t elegant-border pt-3">
           <div className="flex items-center justify-between mb-3">

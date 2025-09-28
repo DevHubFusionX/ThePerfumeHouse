@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen';
 import Header from './components/Header';
 import MainWebsite from './components/MainWebsite';
+import About from './components/About';
 import AllProducts from './components/AllProducts';
 import AllCombos from './components/AllCombos';
 import MensCollection from './components/MensCollection';
@@ -33,7 +34,9 @@ const AppContent = () => {
       <ScrollToTop />
       {!isAdminPage && <Header />}
       <Routes>
-        <Route path="/" element={<MainWebsite />} />
+        <Route path="/" element={<Navigate to="/products" replace />} />
+        <Route path="/home" element={<MainWebsite />} />
+        <Route path="/about" element={<About />} />
         <Route path="/products" element={<AllProducts />} />
         <Route path="/collections/men" element={<MensCollection />} />
         <Route path="/collections/women" element={<WomensCollection />} />

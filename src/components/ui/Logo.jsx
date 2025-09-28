@@ -10,10 +10,12 @@ const Logo = ({ size = 'md', showDetails = false }) => {
   };
 
   const MonogramIcon = () => (
-    <div className={`${sizes[size].container} bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg`}>
-      <span className={`${sizes[size].monogram} font-bold text-white tracking-wider`}>
-        EB
-      </span>
+    <div className={`${sizes[size].container} rounded-xl overflow-hidden shadow-lg`}>
+      <img 
+        src="/logo.jpg" 
+        alt="The Perfume House Logo" 
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 
@@ -25,21 +27,18 @@ const Logo = ({ size = 'md', showDetails = false }) => {
     <div className="text-center">
       <MonogramIcon />
       <div className="mt-3">
-        <h1 className={`${sizes[size].text} font-bold text-gray-800 tracking-wider`}>
-          ESSENCE BOUTIQUE
+        <h1 className={`${sizes[size].text} font-bold text-charcoal tracking-wider`}>
+          THE PERFUME HOUSE
         </h1>
         <div className="flex justify-center space-x-3 mt-2">
-          <a href="https://x.com/essence_boutique" className="text-blue-500 hover:text-blue-600 transition-colors">
-            <FaTwitter size={14} />
-          </a>
-          <a href="https://instagram.com/essence_boutique" className="text-pink-500 hover:text-pink-600 transition-colors">
+          <a href="https://www.instagram.com/theperfumehouse.ng" className="text-gold hover:text-gold-light transition-colors">
             <FaInstagram size={14} />
           </a>
-          <a href="https://wa.me/2347069257877" className="text-green-500 hover:text-green-600 transition-colors">
+          <a href="https://api.whatsapp.com/send?phone=%2B2347031862712" className="text-gold hover:text-gold-light transition-colors">
             <FaWhatsapp size={14} />
           </a>
         </div>
-        <p className="text-xs text-gray-500 mt-1">0706 925 7877</p>
+        <p className="text-xs text-charcoal-light mt-1">+234 703 186 2712</p>
       </div>
     </div>
   );
