@@ -76,60 +76,60 @@ const WomensCollection = () => {
     <div className="min-h-screen bg-gradient-to-br from-beige-light to-nude-light">
       <div className="pt-20">
         <div className="gradient-nude text-charcoal shadow-sm border-b mb-8">
-          <div className="container mx-auto px-6 py-12">
-            <div className="flex items-center justify-between">
+          <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6 lg:space-y-0">
               <div>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 gradient-gold rounded-2xl flex items-center justify-center">
-                    <FaVenus className="text-charcoal text-2xl" />
+                <div className="flex items-center space-x-3 sm:space-x-4 mb-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 gradient-gold rounded-2xl flex items-center justify-center">
+                    <FaVenus className="text-charcoal text-xl sm:text-2xl" />
                   </div>
                   <div>
-                    <span className="text-gold font-medium tracking-wider text-sm uppercase block">Women's Perfumes</span>
-                    <h1 className="text-4xl font-bold text-charcoal">Perfumes for Women</h1>
+                    <span className="text-gold font-medium tracking-wider text-xs sm:text-sm uppercase block">Women's Perfumes</span>
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-charcoal">Perfumes for Women</h1>
                   </div>
                 </div>
-                <p className="text-charcoal-light text-lg max-w-2xl">Beautiful perfumes chosen for women who want to feel confident and smell wonderful every day.</p>
+                <p className="text-charcoal-light text-sm sm:text-base lg:text-lg max-w-2xl">Beautiful perfumes chosen for women who want to feel confident and smell wonderful every day.</p>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 self-start lg:self-auto">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-3 rounded-xl elegant-transition ${
+                  className={`p-2 sm:p-3 rounded-xl elegant-transition ${
                     viewMode === 'grid' ? 'bg-gold text-charcoal' : 'text-charcoal hover:text-gold'
                   }`}
                 >
-                  <FaTh />
+                  <FaTh className="text-sm sm:text-base" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-3 rounded-xl elegant-transition ${
+                  className={`p-2 sm:p-3 rounded-xl elegant-transition ${
                     viewMode === 'list' ? 'bg-gold text-charcoal' : 'text-charcoal hover:text-gold'
                   }`}
                 >
-                  <FaList />
+                  <FaList className="text-sm sm:text-base" />
                 </button>
               </div>
             </div>
           </div>
         </div>
         
-        <div className="container mx-auto px-6 pb-8">
-          <div className="card-elegant p-8 mb-8">
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="relative">
+        <div className="container mx-auto px-4 sm:px-6 pb-8">
+          <div className="card-elegant p-4 sm:p-6 lg:p-8 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="relative sm:col-span-2 lg:col-span-1">
                 <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-charcoal-light" />
                 <input
                   type="text"
                   placeholder="Search women's perfumes..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal"
+                  className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal text-sm sm:text-base"
                 />
               </div>
               
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal"
+                className="px-4 py-3 sm:py-4 border border-beige-dark rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent text-charcoal text-sm sm:text-base"
               >
                 <option value="popular">Most Popular</option>
                 <option value="price-low">Price: Accessible to Luxurious</option>
@@ -137,8 +137,8 @@ const WomensCollection = () => {
                 <option value="name">Alphabetical</option>
               </select>
               
-              <div className="flex items-center justify-center bg-gold/10 rounded-xl px-4 py-4">
-                <span className="text-charcoal font-semibold text-lg">
+              <div className="flex items-center justify-center bg-gold/10 rounded-xl px-4 py-3 sm:py-4 sm:col-span-2 lg:col-span-1">
+                <span className="text-charcoal font-semibold text-sm sm:text-base lg:text-lg">
                   {filteredProducts.length} {filteredProducts.length === 1 ? 'Fragrance' : 'Fragrances'}
                 </span>
               </div>
@@ -146,9 +146,9 @@ const WomensCollection = () => {
           </div>
 
           {loading ? (
-            <div className={`grid gap-8 ${
+            <div className={`grid gap-4 sm:gap-6 lg:gap-8 ${
               viewMode === 'grid' 
-                ? 'md:grid-cols-2 lg:grid-cols-3' 
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
                 : 'grid-cols-1 max-w-4xl mx-auto'
             }`}>
               {[...Array(6)].map((_, index) => (
@@ -156,9 +156,9 @@ const WomensCollection = () => {
               ))}
             </div>
           ) : (
-            <div className={`grid gap-8 ${
+            <div className={`grid gap-4 sm:gap-6 lg:gap-8 ${
               viewMode === 'grid' 
-                ? 'md:grid-cols-2 lg:grid-cols-3' 
+                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
                 : 'grid-cols-1 max-w-4xl mx-auto'
             }`}>
               {filteredProducts.map((product, index) => (

@@ -1,8 +1,11 @@
-import React from 'react';
-import { FaShieldAlt, FaTruck, FaWhatsapp, FaStar, FaAward, FaHeart } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaShieldAlt, FaTruck, FaWhatsapp, FaStar, FaAward, FaHeart, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import '../styles/theme.css';
 
 const WhyChooseUs = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   const features = [
     {
       icon: FaShieldAlt,
@@ -26,6 +29,24 @@ const WhyChooseUs = () => {
     }
   ];
 
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % features.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, features.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % features.length);
+    setIsAutoPlaying(false);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + features.length) % features.length);
+    setIsAutoPlaying(false);
+  };
+
   return (
     <section className="py-24 bg-gradient-to-br from-nude-light via-beige-light to-nude">
       <div className="container mx-auto px-6">
@@ -38,7 +59,8 @@ const WhyChooseUs = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* Desktop Grid */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-10">
           {features.map((feature, index) => (
             <div key={index} className="text-center group">
               <div className="relative mb-8">
@@ -51,6 +73,59 @@ const WhyChooseUs = () => {
               <p className="text-charcoal-light leading-relaxed text-lg">{feature.description}</p>
             </div>
           ))}
+        </div>
+
+        {/* Mobile Carousel */}
+        <div className="lg:hidden relative">
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {features.map((feature, index) => (
+                <div key={index} className="w-full flex-shrink-0 text-center px-4">
+                  <div className="relative mb-8">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gold/10 text-gold rounded-3xl elegant-shadow">
+                      <feature.icon size={28} />
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-5 h-5 gradient-silver rounded-full opacity-60"></div>
+                  </div>
+                  <h3 className="text-xl font-bold text-charcoal mb-4">{feature.title}</h3>
+                  <p className="text-charcoal-light leading-relaxed">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white/90 backdrop-blur-sm text-charcoal p-3 rounded-full elegant-shadow hover:bg-gold hover:text-charcoal elegant-transition"
+          >
+            <FaChevronLeft size={16} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white/90 backdrop-blur-sm text-charcoal p-3 rounded-full elegant-shadow hover:bg-gold hover:text-charcoal elegant-transition"
+          >
+            <FaChevronRight size={16} />
+          </button>
+          
+          {/* Dots Indicator */}
+          <div className="flex justify-center space-x-2 mt-8">
+            {features.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentSlide(index);
+                  setIsAutoPlaying(false);
+                }}
+                className={`w-3 h-3 rounded-full elegant-transition ${
+                  index === currentSlide ? 'bg-gold' : 'bg-gold/30'
+                }`}
+              />
+            ))}
+          </div>
         </div>
         
         {/* Bottom CTA */}

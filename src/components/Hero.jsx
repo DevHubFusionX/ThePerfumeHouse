@@ -1,8 +1,11 @@
 import React from 'react';
 import { FaWhatsapp, FaStar, FaShippingFast, FaShieldAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import '../styles/theme.css';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="pt-32 pb-20 bg-gradient-to-br from-beige-light via-nude-light to-beige">
       <div className="container mx-auto px-6">
@@ -69,7 +72,10 @@ const Hero = () => {
           
           {/* Featured Collections */}
           <div className="grid md:grid-cols-3 gap-8 mt-20">
-            <div className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition">
+            <div 
+              className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition"
+              onClick={() => navigate('/collections/men')}
+            >
               <div className="w-20 h-20 gradient-charcoal rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
                 <span className="text-beige-light font-bold text-2xl">♂</span>
               </div>
@@ -80,7 +86,10 @@ const Hero = () => {
               <span className="text-gold font-semibold group-hover:underline elegant-transition">Discover Collection →</span>
             </div>
             
-            <div className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition">
+            <div 
+              className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition"
+              onClick={() => navigate('/collections/women')}
+            >
               <div className="w-20 h-20 gradient-gold rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
                 <span className="text-charcoal font-bold text-2xl">♀</span>
               </div>
@@ -91,7 +100,10 @@ const Hero = () => {
               <span className="text-gold font-semibold group-hover:underline elegant-transition">Discover Collection →</span>
             </div>
             
-            <div className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition">
+            <div 
+              className="card-elegant p-8 group cursor-pointer hover:bg-nude-light elegant-transition"
+              onClick={() => navigate('/collections/combos')}
+            >
               <div className="w-20 h-20 gradient-silver rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 elegant-transition elegant-shadow">
                 <span className="text-charcoal font-bold text-2xl">🎁</span>
               </div>
