@@ -111,11 +111,11 @@ const AllProducts = React.memo(() => {
         <div className="gradient-charcoal text-beige-light mb-8">
           <div className="container mx-auto px-6 py-16">
             <div className="max-w-4xl mx-auto text-center">
-              <span className="text-gold font-medium tracking-wider text-sm uppercase mb-4 block">Our Collection</span>
-              <h1 className="text-5xl font-bold mb-6">Premium Perfumes</h1>
+              <span className="text-gold font-medium tracking-wider text-sm uppercase mb-4 block">Welcome to The Perfume House</span>
+              <h1 className="text-5xl font-light mb-6 tracking-widest" style={{ fontFamily: 'serif', letterSpacing: '0.2em', fontVariant: 'small-caps' }}>Premium Perfumes</h1>
               <div className="w-24 h-1 gradient-gold mx-auto rounded-full mb-8"></div>
               <p className="text-xl text-beige leading-relaxed max-w-2xl mx-auto">
-                Browse our collection of authentic designer perfumes from top brands around the world.
+                Discover authentic designer perfumes from top brands around the world. Your perfect fragrance awaits.
               </p>
             </div>
           </div>

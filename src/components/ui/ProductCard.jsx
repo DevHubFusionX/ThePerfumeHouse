@@ -31,11 +31,11 @@ const ProductCard = React.memo(({ product, showActions = false, onEdit, onDelete
 
   return (
     <div
-      className={`group bg-beige-light/80 backdrop-blur-sm rounded-lg elegant-shadow hover:elegant-shadow-xl elegant-transition overflow-hidden hover:-translate-y-2 elegant-border h-[520px] flex flex-col ${!showActions ? 'cursor-pointer' : ''
+      className={`group bg-white rounded shadow-sm hover:shadow-md elegant-transition overflow-hidden border border-gray-100 ${!showActions ? 'cursor-pointer' : ''
         }`}
       onClick={handleCardClick}
     >
-      <div className="relative overflow-hidden h-56 flex-shrink-0">
+      <div className="relative overflow-hidden h-48">
         <img
           src={imageError ? 'https://via.placeholder.com/400x400?text=No+Image' : images[currentImageIndex]}
           alt={product.name}
@@ -90,60 +90,29 @@ const ProductCard = React.memo(({ product, showActions = false, onEdit, onDelete
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 elegant-transition"></div>
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-4">
         <div className="mb-3">
-          <h3 className="text-lg font-bold text-charcoal mb-2 line-clamp-2 group-hover:text-gold elegant-transition leading-tight">{product.name}</h3>
           {product.brand && (
-            <span className="inline-flex items-center px-2 py-1 bg-gold/10 text-gold text-xs font-semibold rounded-full elegant-border">
+            <span className="text-xs text-gray-500 font-medium uppercase tracking-wide">
               {product.brand}
             </span>
           )}
+          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight mt-1">{product.name}</h3>
         </div>
 
-        <div className="mt-auto border-t elegant-border pt-3">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xl font-bold text-gold">{product.price}</span>
-          </div>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold text-gray-900">{product.price}</span>
 
-          {showActions ? (
-            <div className="space-y-2">
-              <button
-                onClick={(e) => { e.stopPropagation(); onEdit(product); }}
-                disabled={isDeleting}
-                className="w-full btn-gold px-3 py-2 rounded-lg text-sm font-semibold elegant-transition disabled:opacity-50"
-              >
-                Edit
-              </button>
-              <div className="flex gap-2">
-                <button
-                  onClick={(e) => { e.stopPropagation(); product.onViewDetails && product.onViewDetails(product); }}
-                  className="flex-1 bg-charcoal-light hover:bg-charcoal text-beige-light px-3 py-2 rounded-lg text-sm font-semibold elegant-transition"
-                >
-                  View
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); onDelete(product._id); }}
-                  disabled={isDeleting}
-                  className="flex-1 bg-charcoal hover:bg-charcoal-light text-beige-light px-3 py-2 rounded-lg text-sm font-semibold elegant-transition disabled:opacity-50"
-                >
-                  {isDeleting ? (
-                    <div className="w-4 h-4 border-2 border-beige-light border-t-transparent rounded-full animate-spin mx-auto"></div>
-                  ) : (
-                    'Delete'
-                  )}
-                </button>
-              </div>
-            </div>
-          ) : (
+          {!showActions && (
             <button
-              className="btn-primary w-full px-4 py-3 rounded-lg font-semibold elegant-transition flex items-center justify-center gap-2"
+              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-xs font-medium transition-colors flex items-center gap-1.5"
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(`https://wa.me/2347069257877?text=Hi, I'm interested in ${product.name} for ${product.price}`, '_blank');
               }}
             >
-              <FaWhatsapp size={16} />
-              Inquire
+              <FaWhatsapp size={12} />
+              Order
             </button>
           )}
         </div>
